@@ -491,12 +491,13 @@ body.light .team-contact p {
 /* Enhanced Floating Contact Form */
 .floating-contact-form {
   position: fixed;
+  top: 20%;
   bottom: 30px;
   right: 30px;
-  width: 64px;
-  height: 64px;
-  border-radius: 50%; /* Circular button */
-  background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%); /* Modern blue gradient */
+  width: 60px;
+  height: 60px;
+  border-radius: 10%;
+  background: linear-gradient(135deg, var(--maroon-600), var(--maroon-700));
   color: white;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
   cursor: pointer;
@@ -504,17 +505,7 @@ body.light .team-contact p {
   overflow: hidden;
   transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   backdrop-filter: blur(10px);
-  border: 2px solid #fff3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-/* Chat Icon for Floating Button */
-.floating-contact-chat-icon {
-  width: 32px;
-  height: 32px;
-  display: block;
-  fill: white;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .floating-contact-form.open {
