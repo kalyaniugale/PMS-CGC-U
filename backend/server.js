@@ -1,15 +1,13 @@
 const path = require("path");
 const express = require("express");
 const dotenv = require("dotenv");
-const mongoose = require("mongoose");
 const cors = require("cors");
 
-// Load environment variables
+// Load environment variables first
 dotenv.config();
 
 // Connect to database
 const connectDB = require("./config/db.js");
-
 connectDB();
 
 // Routes
@@ -30,8 +28,6 @@ const allowedOrigins = [
   "https://pms-cgc-u.vercel.app",
 ];
 const corsOptions = {
-  origin: 'https://pms-cgc-u.vercel.app',
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin)) {
       return callback(null, true);
@@ -53,16 +49,7 @@ app.get("/", (req, res) => {
   res.send("Welcome to PMS-CGC-U Backend 🚀");
 });
 
-// Job routes
-app.use('/api/jobs', jobRoutes);
-
-// Connect to MongoDB (use environment variable for production)
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/placement';
-// Removed duplicate mongoose.connect(MONGODB_URI) to prevent multiple connections
-
-// Connection handling is now managed in db.js
-
-// Use routes
+// Routes
 app.use("/api/interview-experiences", interviewExperienceRoutes);
 app.use("/api/newsletter", newsletterRoutes);
 app.use("/uploads", imageRoutes);
