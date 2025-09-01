@@ -44,13 +44,13 @@ This document records **all contributions** to the project and assigns points ba
 | 24       | Varma-2005        | 7         | #98       | Fixed navigation bar and improved authentication (restricted access + email checks)  |
 | 25       | akofficial10      | 10        | #100      | Implement Full Newsletter Functionality with Subscription, Confirmation Email, and Frontend Integration. |
 | 26       | SainiAdi-04       | 3         | #103      | Fix Infinite Loading & Deloitte Logo Placeholder                                     |
-| 27       | SainiAdi-04       | 3         | #108      | color mismatch in bg cards                                                           |
-| 28       | SainiAdi-04       | 10        | #110      | Improve student dashboard detailed tracking                                          |
-| 29       | SainiAdi-04       | 3         | #115      | Added working social links in footer                                                 |
-| 30       | SainiAdi-04       | 3         | #116      | Added navigation links to "Register Now" and "Contact Us" buttons on homepage CTA section                |
-| 31       | SainiAdi-04       | 10        | #118      | Add contact form with validation and toast notifications                             |
-| 32       | SainiAdi-04       | 7         | #119      | pr create automate message added                                                     |
-| 33       | SainiAdi-04       | 3         | #120      | issue create automate message added                                                  |
+| 27       | Anvesha-24        | 3         | #108      | color mismatch in bg cards                                                           |
+| 28       | Umisalma848       | 10        | #110      | Improve student dashboard detailed tracking                                          |
+| 29       | vanshika147       | 3         | #115      | Added working social links in footer                                                 |
+| 30       | rahul12075        | 3         | #116      | Added navigation links to "Register Now" and "Contact Us" buttons on homepage CTA section                |
+| 31       | akofficial10      | 10        | #118      | Add contact form with validation and toast notifications                             |
+| 32       | Soumyosish        | 7         | #119      | pr create automate message added                                                     |
+| 33       | Soumyosish        | 3         | #120      | issue create automate message added                                                  |
 
 
 
