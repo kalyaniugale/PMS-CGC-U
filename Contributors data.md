@@ -51,7 +51,7 @@ This document records **all contributions** to the project and assigns points ba
 | 31       | akofficial10      | 10        | #118      | Add contact form with validation and toast notifications                             |
 | 32       | Soumyosish        | 7         | #119      | pr create automate message added                                                     |
 | 33       | Soumyosish        | 3         | #120      | issue create automate message added                                                  |
-
+| 34       | arundhativaishnav | 7         | #54       | Added Toastify feature instead of using windows alerts                               |
 
 
 
