@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { signup, signin } from "../../api/auth";
 import "./sign.css";
 
@@ -184,6 +185,15 @@ function Sign() {
               </div>
             )}
           </div>
+
+          {/* Forgot Password link (only on Sign In) */}
+          {!isRegister && (
+            <div className="forgot-password">
+              <Link to="/reset-password" className="forgot-password">
+                Forgot Password?
+              </Link>
+            </div>
+          )}
 
           {isRegister && (
             <div className="field-wrap">
