@@ -16,6 +16,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import JobsPage from "./components/jobs";
 import InterviewExperience from "./components/InterviewExperience";
 import ScrollToTop from "./components/ScrollToTop";
+import ResetPassword from "./components/ResetPassword";
 
 import "../src/index.css";
 
@@ -138,9 +139,22 @@ function App() {
               </ProtectedRoute>
             }
           />
+             
+        <Route
+          path="/reset-password"
+          element={
+            <>
+              <Header />
+              <main className="main-content">
+                <ResetPassword />
+              </main>
+              <Footer />
+            </>
+          }
+        />
         </Routes>
       </div>
-    </Router>
+    </Router>   
   );
 }
 
