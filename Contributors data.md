@@ -52,6 +52,6 @@ This document records **all contributions** to the project and assigns points ba
 | 32       | Soumyosish        | 7         | #119      | pr create automate message added                                                     |
 | 33       | Soumyosish        | 3         | #120      | issue create automate message added                                                  |
 | 34       | arundhativaishnav | 7         | #54       | Added Toastify feature instead of using windows alerts                               |
-
+| 35       | Tushar-sonawane06 | 7         | #125      | Forgot Password Added                                                                |
 
 
