@@ -89,9 +89,11 @@ body.light .contact-hero p {
 
 /* Contact Info Section */
 .contact-info {
-  max-width: 800px;
+  max-width: auto;
   margin: 0 auto 3rem;
-  padding: 0 2rem;
+  padding: 0;
+  padding-left: 200px;
+  padding-right: 200px;
 }
 
 .contact-card {
@@ -1175,4 +1177,19 @@ body.light .team-card p.team-title{
 
 body.light .team-card p.team-title:hover{
   color: #520216;
+}
+
+body.light .contact-hero{
+  background: #d6c9c9;
+}
+
+body.light .contact-hero p{
+  color:black;
+}
+
+body.light .contact-page .contact-main-content.contact-info {
+  width: 95%;   /* almost full width */
+  margin: 0 auto; /* center it */
+  padding: 20px;
+  border-radius: 10px; /* smooth corners */
 }
