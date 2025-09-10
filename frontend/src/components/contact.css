@@ -1193,3 +1193,36 @@ body.light .contact-page .contact-main-content.contact-info {
   padding: 20px;
   border-radius: 10px; /* smooth corners */
 }
+
+.executive-scroll-wrapper {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+}
+
+.executive-card {
+  min-width: 250px;
+  flex-shrink: 0;
+  background: #ffffffcc;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 16px;
+  text-align: center;
+}
+
+.executive-scroll {
+  display: flex;
+  gap: 20px;
+  animation: scrollCards 40s linear infinite;
+  width: max-content;
+  margin-bottom:25px;
+}
+
+@keyframes scrollCards {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.33%);
+  }
+}
