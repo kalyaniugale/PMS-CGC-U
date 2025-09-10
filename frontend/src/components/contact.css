@@ -89,9 +89,11 @@ body.light .contact-hero p {
 
 /* Contact Info Section */
 .contact-info {
-  max-width: 800px;
+  max-width: auto;
   margin: 0 auto 3rem;
-  padding: 0 2rem;
+  padding: 0;
+  padding-left: 200px;
+  padding-right: 200px;
 }
 
 .contact-card {
@@ -1110,3 +1112,84 @@ body.light .success-animation p {
 .team-card {
   animation-delay: calc(var(--index) * 0.1s);
 }}
+
+/* new styling for light mode */
+body.light .contact-hero h1{
+  color: #8f0101;
+}
+
+body.light .contact-hero p{
+  color:#ffffff;
+}
+
+body.light .contact-card,
+body.light .executive-card,
+body.light .team-card {
+  background: #d6c9c9;   
+  color: #1a1a1a;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+body.light .contact-card h2,
+body.light .executive-card h2,
+body.light .team-card h3 {
+  color: #800000;
+}
+
+body.light .contact-card .contact-label,
+body.light .executive-card .contact-label,
+body.light .team-card .contact-label {
+  font-weight: bold;
+  color: #800000;
+}
+
+body.light .contact-card a,
+body.light .executive-card a,
+body.light .team-card a {
+  color: #0f0808; 
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+body.light .contact-card p {
+  color:#0f0808;
+}
+
+body.light .contact-card a:hover,
+body.light .executive-card a:hover,
+body.light .team-card a:hover {
+  color: #000000;
+  text-decoration: underline;
+}
+
+body.light .team-card:hover{
+  background-color: #a39292;
+}
+
+body.light .team-card h3{
+  color:#5f0101;
+}
+
+body.light .team-card p.team-title{
+  color: #960328;
+}
+
+body.light .team-card p.team-title:hover{
+  color: #520216;
+}
+
+body.light .contact-hero{
+  background: #d6c9c9;
+}
+
+body.light .contact-hero p{
+  color:black;
+}
+
+body.light .contact-page .contact-main-content.contact-info {
+  width: 95%;   /* almost full width */
+  margin: 0 auto; /* center it */
+  padding: 20px;
+  border-radius: 10px; /* smooth corners */
+}
