@@ -516,15 +516,6 @@ docker-compose up -d
 
 </div>
 
-### **📅 Office Hours**
-
-We host weekly community calls:
-- **🌍 Asia-Pacific:** Saturdays 10:00 AM IST
-- **🌍 Europe/Africa:** Saturdays 3:00 PM GMT  
-- **🌍 Americas:** Saturdays 6:00 PM EST
-
----
-
 ## 🎉 **Show Your Support**
 
 <div align="center">
