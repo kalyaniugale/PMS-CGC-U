@@ -1,3 +1,6 @@
+body {
+  overflow-x: hidden;
+}
 /* Contact Page Dark Theme */
 .contact-page {
   min-height: 100vh;
@@ -16,6 +19,7 @@
     );
   position: relative;
   box-sizing: border-box;
+}
 body.light .contact-page {
   background-color: var(--bg-light);
   width: 100vw;
@@ -1111,7 +1115,7 @@ body.light .success-animation p {
 
 .team-card {
   animation-delay: calc(var(--index) * 0.1s);
-}}
+}
 
 /* new styling for light mode */
 body.light .contact-hero h1{
