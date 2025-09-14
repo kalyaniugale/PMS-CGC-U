@@ -42,20 +42,7 @@ function App() {
             }
           />
 
-          {/* Other Public Routes */}
-          <Route
-            path="/interview-experience"
-            element={
-              <>
-                <Header />
-                <main className="main-content">
-                  <InterviewExperience />
-                </main>
-                <Footer />
-              </>
-            }
-          />
-
+          {/* Public Routes */}
           <Route
             path="/signin"
             element={
@@ -68,7 +55,6 @@ function App() {
               </>
             }
           />
-
           <Route
             path="/about"
             element={
@@ -81,7 +67,6 @@ function App() {
               </>
             }
           />
-
           <Route
             path="/contact"
             element={
@@ -94,33 +79,6 @@ function App() {
               </>
             }
           />
-
-          <Route
-            path="/profile"
-            element={
-              <>
-                <Header />
-                <main className="main-content">
-                  <StudentProfile />
-                </main>
-                <Footer />
-              </>
-            }
-          />
-
-          <Route
-            path="/jobs"
-            element={
-              <>
-                <Header />
-                <main className="main-content">
-                  <JobsPage />
-                </main>
-                <Footer />
-              </>
-            }
-          />
-
           {/* Privacy Policy Route ✅ */}
           <Route
             path="/privacy"
@@ -129,6 +87,50 @@ function App() {
                 <Header />
                 <main className="main-content">
                   <PrivacyPolicy />
+                </main>
+                <Footer />
+              </>
+            }
+          />
+
+          {/* User Private Routes */}
+          <Route
+            path="/profile"
+            element={
+              <>
+                <Header />
+                <main className="main-content">
+                  <ProtectedRoute requireAdmin={false}>
+                    <StudentProfile />
+                  </ProtectedRoute>
+                </main>
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/interview-experience"
+            element={
+              <>
+                <Header />
+                <main className="main-content">
+                  <ProtectedRoute requireAdmin={false}>
+                    <InterviewExperience />
+                  </ProtectedRoute>
+                </main>
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/jobs"
+            element={
+              <>
+                <Header />
+                <main className="main-content">
+                  <ProtectedRoute requireAdmin={false}>
+                    <JobsPage />
+                  </ProtectedRoute>
                 </main>
                 <Footer />
               </>
@@ -153,7 +155,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-
           <Route
             path="/reset-password"
             element={
