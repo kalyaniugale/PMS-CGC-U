@@ -170,7 +170,7 @@ function Footer() {
           </div>
           <div className="footer-cta">
             <a href="/signin" className="footer-cta-button">Sign In</a>
-            <a href="/contact" className="outline">Contact Us</a>
+            <a href="/contact" className="contact-outline">Contact Us</a>
           </div>
         </div>
       </div>
