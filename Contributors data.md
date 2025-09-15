@@ -56,7 +56,7 @@ This document records **all contributions** to the project and assigns points ba
 | 36       | Tushar-sonawane06 | 7         | #126      | Contact Style Updated in Light Mode                                                  |
 | 37       | @divyagit21       | 10        | #140      | Implemented interview experiences accessibility                                      |
 | 38       | @Adez017          | 3         | #137      | Revise README for clarity and updated navigation                                     |
-| 39       | @Adez017          | 3         | #136      | Added Templates for issues                                                           |                  |
+| 39       | @Adez017          | 3         | #136      | Added Templates for issues                                                           |
 | 40      | Tushar-sonawane06    | 7         | #133      | Add Leadership Section with Auto-Scrolling Cards |
 | 41      | Adez017              | 7         | #134      | Add automated comment on newly opened issues     |
 | 42      | Adez017              | 3         | #135      | Create pull_request_template.md                  |
@@ -70,8 +70,8 @@ This document records **all contributions** to the project and assigns points ba
 | 50      | divyagit21           | 10        | #140      | Implemented interview experiences accessibility  |
 | 51      | Adez017              | 3         | #137      | Revise README for clarity and updated navigation |
 | 52      | Adez017              | 3         | #136      | Added Templates for issues                       |
-| 53      | Adez017          | 7         | #158      | Add the comprehensive cookie policy page |
-
+| 53      | Adez017           | 7          | #158      | Add the comprehensive cookie policy page |
+| 54       | divyagit21       | 7          | #160      | contact fixed in footer                                                               |
 
 
 
