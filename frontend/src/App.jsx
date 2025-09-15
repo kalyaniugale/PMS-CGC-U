@@ -18,6 +18,7 @@ import InterviewExperience from "./components/InterviewExperience";
 import ScrollToTop from "./components/ScrollToTop";
 import ResetPassword from "./components/ResetPassword";
 import PrivacyPolicy from "./components/PrivacyPolicy"; // ✅ Added
+import CookiePolicy from "./components/CookiePolicy"; // ✅ Added
 
 import "../src/index.css";
 
@@ -129,6 +130,20 @@ function App() {
                 <Header />
                 <main className="main-content">
                   <PrivacyPolicy />
+                </main>
+                <Footer />
+              </>
+            }
+          />
+
+          {/* Cookie Policy Route ✅ */}
+          <Route
+            path="/cookies"
+            element={
+              <>
+                <Header />
+                <main className="main-content">
+                  <CookiePolicy />
                 </main>
                 <Footer />
               </>
