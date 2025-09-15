@@ -1,59 +1,54 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./interviewExperience.css";
 import InterviewDetail from "./InterviewDetail";
-
-const dummyData = [
-  {
-    id: 1,
-    company: "Google",
-    role: "SDE",
-    experience:
-      "I had three rounds: 1st was DSA (leetcode-style), 2nd was system design, 3rd was HR. The DSA round was tough but fair, with questions on trees and dynamic programming. The system design round focused on designing a URL shortener. The HR round was friendly and focused on my projects and teamwork. My advice: practice DSA daily and be ready to explain your thought process.",
-  },
-  {
-    id: 2,
-    company: "Microsoft",
-    role: "Intern",
-    experience:
-    "The process had an online assessment, followed by two interviews. The OA was mostly MCQs and a couple of coding questions. The interviews were focused on problem-solving and my resume projects. They really liked when I explained my approach step by step.",
-  },
-  {
-    id: 3,
-    company: "Amazon",
-    role: "SDE",
-    experience:
-    "There were two technical rounds and one bar-raiser. The first round was all about data structures, especially arrays and strings. The second round was a mix of coding and behavioral questions. ",
-  },
-  {
-    id: 4,
-    company: "Goldman Sachs",
-    role: "Analyst",
-    experience:
-    "There was a hackerrank test, then a group discussion, and finally two interviews. The interviews were a mix of technical and HR. They asked about finance basics, puzzles, and my motivation for joining GS. Be confident and clear about why you want the role.",
-  },
-  {
-    id: 5,
-    company: "Google",
-    role: "SWE",
-    experience:
-      "The process was long but rewarding. Four rounds: two technical, one design, one HR. The technical rounds were deep on algorithms and data structures. The design round was about scaling a chat app. The HR round was about my teamwork and leadership experiences. Practice mock interviews!",
-  },
-];
-
+import { getAllInterviewExperiences, addInterviewExperience, deleteInterviewExperience, editInterviewExperience } from "../../api/interviews";
 
 export default function InterviewExperience() {
   const [view, setView] = useState("read");
   const [filter, setFilter] = useState({ company: "", role: "" });
-  const [experiences, setExperiences] = useState(dummyData);
+  const [experiences, setExperiences] = useState([]);
   const [form, setForm] = useState({ company: "", role: "", experience: "" });
   const [selected, setSelected] = useState(null);
+  const [editId, setEditId] = useState(null);
+  const [debouncedFilter, setDebouncedFilter] = useState(filter);
+  const userId = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")).id : null;
+
+  useEffect(() => {
+    fetchExperiences();
+  }, []);
+
+  // Debounce effect for filter
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedFilter(filter);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [filter])
+
+  // Fetch interview experiences
+  const fetchExperiences = async () => {
+    try {
+      const data = await getAllInterviewExperiences();
+      setExperiences(data);
+      console.log(data)
+    } catch (error) {
+      console.error('Failed to fetch interview experiences:', error);
+    }
+  };
 
   // Delete experience handler
-  const handleDelete = (id, e) => {
+  const handleDelete = async (id, e) => {
     e.stopPropagation();
-    if (window.confirm('Are you sure you want to delete this experience?')) {
-      setExperiences(experiences.filter(exp => exp.id !== id));
+    const confirmed = window.confirm('Are you sure you want to delete this experience?');
+    if (!confirmed) return;
+    try {
+      await deleteInterviewExperience(id);
+      setExperiences(prev => prev.filter(exp => exp._id !== id));
+      alert('Experience deleted successfully.');
+    } catch (error) {
+      console.error('Failed to delete experience:', error);
+      alert('Failed to delete experience: ' + (error.message || 'Unknown error'));
     }
   };
 
@@ -63,22 +58,39 @@ export default function InterviewExperience() {
 
   const filtered = experiences.filter(
     (exp) =>
-      (!filter.company || exp.company.toLowerCase().includes(filter.company.toLowerCase())) &&
-      (!filter.role || exp.role.toLowerCase().includes(filter.role.toLowerCase()))
+      (!debouncedFilter.company || exp.company.toLowerCase().includes(debouncedFilter.company.toLowerCase())) &&
+      (!debouncedFilter.role || exp.role.toLowerCase().includes(debouncedFilter.role.toLowerCase()))
   );
 
   const handleFormChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    setExperiences([
-      ...experiences,
-      { ...form, id: experiences.length + 1 },
-    ]);
-    setForm({ company: "", role: "", experience: "" });
-    setView("read");
+    try {
+      // Edit experience
+      if (editId) {
+        await editInterviewExperience(editId, form);
+        setExperiences(prev =>
+          prev.map(exp => exp._id === editId ? { ...exp, ...form } : exp)
+        );
+        alert("Interview Experience updated.");
+        setEditId(null);
+        setForm({ company: "", role: "", experience: "" });
+        setView("read");
+      }
+      else {
+        // Save experience
+        const newExp = await addInterviewExperience(form); // send to backend
+        setExperiences([...experiences, newExp]); // update local state
+        alert('Succesfully added. ')
+        setForm({ company: "", role: "", experience: "" }); // reset form
+        setView("read"); // switch to read view
+      }
+    } catch (error) {
+      console.error("Failed to submit experience:", error);
+    }
   };
 
   if (selected) {
@@ -131,7 +143,7 @@ export default function InterviewExperience() {
               rows={7}
             />
           </div>
-          <button type="submit">Submit Experience</button>
+            <button type="submit">{editId ? "Save Experience" : "Submit Experience"}</button>
         </form>
       )}
       {view === "read" && (
@@ -153,7 +165,7 @@ export default function InterviewExperience() {
           <ul className="ie-list ie-list-redesign">
             {filtered.length === 0 && <li className="ie-empty">No experiences found.</li>}
             {filtered.map((exp) => (
-              <li key={exp.id} className="ie-item ie-card" onClick={() => setSelected(exp)}>
+              <li key={exp._id} className="ie-item ie-card" onClick={() => setSelected(exp)}>
                 <div className="ie-meta">
                   <span className="ie-company">{exp.company}</span>
                   <span className="ie-role">{exp.role}</span>
@@ -164,8 +176,25 @@ export default function InterviewExperience() {
                     : exp.experience}
                 </p>
                 <div className="ie-card-actions">
-                  <button className="ie-view-btn" onClick={e => {e.stopPropagation(); setSelected(exp);}}>Read</button>
-                  <button className="ie-delete-btn" onClick={e => handleDelete(exp.id, e)}>Delete</button>
+                  {exp.createdBy === userId ? (
+                    <>
+                      <button className="ie-delete-btn" onClick={e => handleDelete(exp._id, e)}>
+                        Delete
+                      </button>
+                      <button className="ie-edit-btn" onClick={e => {
+                        e.stopPropagation(); setForm({
+                          company: exp.company,
+                          role: exp.role,
+                          experience: exp.experience
+                        }); setView("add"); setEditId(exp._id)
+                      }}>
+                        Edit
+                      </button>
+
+                    </>
+                  ) : (
+                    <button className="ie-view-btn" onClick={e => { e.stopPropagation(); setSelected(exp); }}>Read</button>
+                  )}
                 </div>
               </li>
             ))}

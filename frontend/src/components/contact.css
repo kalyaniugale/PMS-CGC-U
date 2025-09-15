@@ -1,3 +1,6 @@
+body {
+  overflow-x: hidden;
+}
 /* Contact Page Dark Theme */
 .contact-page {
   min-height: 100vh;
@@ -16,6 +19,7 @@
     );
   position: relative;
   box-sizing: border-box;
+}
 body.light .contact-page {
   background-color: var(--bg-light);
   width: 100vw;
@@ -1111,7 +1115,7 @@ body.light .success-animation p {
 
 .team-card {
   animation-delay: calc(var(--index) * 0.1s);
-}}
+}
 
 /* new styling for light mode */
 body.light .contact-hero h1{
@@ -1192,4 +1196,37 @@ body.light .contact-page .contact-main-content.contact-info {
   margin: 0 auto; /* center it */
   padding: 20px;
   border-radius: 10px; /* smooth corners */
+}
+
+.executive-scroll-wrapper {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+}
+
+.executive-card {
+  min-width: 250px;
+  flex-shrink: 0;
+  background: #ffffffcc;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 16px;
+  text-align: center;
+}
+
+.executive-scroll {
+  display: flex;
+  gap: 20px;
+  animation: scrollCards 40s linear infinite;
+  width: max-content;
+  margin-bottom:25px;
+}
+
+@keyframes scrollCards {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.33%);
+  }
 }

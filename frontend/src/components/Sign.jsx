@@ -38,7 +38,7 @@ function Sign() {
       // specific format validation
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) error = "Enter a valid email address";
     } else if (name === "password") {
-      if (value.length < 6) error = "Password must be at least 6 characters";
+      if (value.length < 8) error = "Password must be at least 8 characters";
     } else if (name === "confirmPassword") {
       if (value !== form.password) error = "Passwords do not match";
     }
@@ -73,7 +73,7 @@ function Sign() {
     return !hasError;
   };
 
-  const handleRegister = async (e) => {
+ const handleRegister = async (e) => {
     e.preventDefault();
     if (!validateAll()) return;
     try {
@@ -82,8 +82,10 @@ function Sign() {
         setErrors({ general: res.error });
         return;
       }
-      localStorage.setItem('isLoggedIn', 'true');
-      window.location.href = '/';
+      
+      setIsRegister(false); 
+      setForm({email:'',password:''});
+
     } catch (err) {
       if (err.response && err.response.status === 409) {
         setErrors({ general: "User already exists with this email." });

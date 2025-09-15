@@ -12,7 +12,10 @@ const userSchema = new mongoose.Schema(
     forcePasswordChange: { type: Boolean, default: false },
     loginAttempts: { type: Number, default: 0 },
     lockedUntil: { type: Date },
-    isActive: { type: Boolean, default: true }
+    isActive: { type: Boolean, default: true },
+    interviewExperiences: [
+      { type: mongoose.Schema.Types.ObjectId, ref: 'InterviewExperience' }
+    ]
   },
   { timestamps: true }
 );

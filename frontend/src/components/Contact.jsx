@@ -4,14 +4,43 @@ import "react-toastify/dist/ReactToastify.css";
 import "./contact.css";
 
 // Executive Director
-const executiveDirector = {
+const executiveDirector = [{
   name: "Mr. Susheel Prashar",
   title: "Executive Director",
   photo:
     "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face",
   phone: "+91-98765-00001",
   email: "susheel.prashar@cgc.ac.in",
-};
+},
+{
+  name: "Mr. Aarav Mehta",
+  title: "Team Lead",
+  photo: "https://www.shutterstock.com/shutterstock/photos/2516789501/display_1500/stock-photo-confident-middle-aged-business-man-manager-entrepreneur-mature-professional-executive-businessman-2516789501.jpg",
+  phone: "+91-98765-00002",
+  email: "aarav.mehta@cgc.ac.in"
+},
+{
+  name: "Ms. Neha Sharma",
+  title: "Senior Software Architect",
+  photo: "https://images.squarespace-cdn.com/content/v1/66a4f1fc404ca05cac7d8ec8/385bc62c-b298-42f8-8f81-a931820c7a8f/Designer%2BHeadshots%2BFemale",
+  phone: "+91-98765-00003",
+  email: "neha.sharma@cgc.ac.in"
+},
+{
+  name: "Mr. Rohan Kapoor",
+  title: "Project Lead",
+  photo: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhlTzCgzIvnDvw-_ucq0h862ecwvaHue-ZmIWuNl7Ei7sprZfOyN3AZJOu2DAGI7y-EYSmMXJRiQ_fRatnDoKUG5fUg1LcwM4zuD8TGinXY7vxERCvXM6oxDaNa0amv35Vf38dbKO7dYNJ3/s1600/16%2BDSC_4869.jpg",
+  phone: "+91-98765-00004",
+  email: "rohan.kapoor@cgc.ac.in"
+},
+{
+  name: "Ms. Ishita Deshmukh",
+  title: "Head of Product Design",
+  photo: "https://www.shutterstock.com/image-photo/headshot-close-face-portrait-young-600nw-2510015507.jpg",
+  phone: "+91-98765-00005",
+  email: "ishita.deshmukh@cgc.ac.in"
+}
+];
 
 // DCPD Team - 20 members
 const dcpdTeam = [
@@ -403,35 +432,39 @@ function Contact() {
           {/* Executive Director Section */}
           <div className="executive-section">
             <h2>Leadership</h2>
-            <div className="executive-card">
-              <div className="photo-container">
-                <img
-                  src={executiveDirector.photo}
-                  alt={executiveDirector.name}
+            <div className="executive-scroll">
+              {executiveDirector.concat(executiveDirector, executiveDirector).map((leader, idx) => (
+              <div className="executive-card" key={idx}>
+                <div className="photo-container">
+                  <img
+                  src={leader.photo}
+                  alt={leader.name}
                   className="executive-photo"
-                />
-                <div className="photo-overlay"></div>
-              </div>
-              <div className="executive-info">
-                <h3>{executiveDirector.name}</h3>
-                <p className="executive-title">{executiveDirector.title}</p>
-                <div className="executive-contact">
-                  <p>
-                    <span className="contact-label">Phone:</span>{" "}
-                    <a href={`tel:${executiveDirector.phone}`}>
-                      {executiveDirector.phone}
-                    </a>
-                  </p>
-                  <p>
-                    <span className="contact-label">Email:</span>{" "}
-                    <a href={`mailto:${executiveDirector.email}`}>
-                      {executiveDirector.email}
-                    </a>
-                  </p>
+                  />
+                  <div className="photo-overlay"></div>
+                </div>
+                <div className="executive-info">
+                  <h3>{leader.name}</h3>
+                  <p className="executive-title">{leader.title}</p>
+                  <div className="executive-contact">
+                    <p>
+                      <span className="contact-label">Phone:</span>{" "}
+                      <a href={`tel:${leader.phone}`}>{leader.phone}</a>
+                    </p>
+                    <p>
+                      <span className="contact-label">Email:</span>{" "}
+                      <a href={`mailto:${leader.email}`}>{leader.email}</a>
+                    </p>
+                  </div>
                 </div>
               </div>
+              ))}
             </div>
           </div>
+
+
+
+
 
           {/* DCPD Team Section */}
           <div className="team-section">

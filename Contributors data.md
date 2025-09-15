@@ -47,11 +47,24 @@ This document records **all contributions** to the project and assigns points ba
 | 27       | Anvesha-24        | 3         | #108      | color mismatch in bg cards                                                           |
 | 28       | Umisalma848       | 10        | #110      | Improve student dashboard detailed tracking                                          |
 | 29       | vanshika147       | 3         | #115      | Added working social links in footer                                                 |
-| 30       | rahul12075        | 3         | #116      | Added navigation links to "Register Now" and "Contact Us" buttons on homepage CTA section                |
+| 30       | rahul12075        | 3         | #116      | Added navigation links to "Register Now" and "Contact Us" buttons on homepage CTA section|
 | 31       | akofficial10      | 10        | #118      | Add contact form with validation and toast notifications                             |
 | 32       | Soumyosish        | 7         | #119      | pr create automate message added                                                     |
 | 33       | Soumyosish        | 3         | #120      | issue create automate message added                                                  |
 | 34       | arundhativaishnav | 7         | #54       | Added Toastify feature instead of using windows alerts                               |
 | 35       | Tushar-sonawane06 | 7         | #125      | Forgot Password Added                                                                |
+| 36       | Tushar-sonawane06 | 7         | #126      | Contact Style Updated in Light Mode                                                  |
+| 37       | @divyagit21       | 10        | #140      | Implemented interview experiences accessibility                                      |
+| 38       | @Adez017          | 3         | #137      | Revise README for clarity and updated navigation                                     |
+| 39       | @Adez017          | 3         | #136      | Added Templates for issues                                                           |
+| 40       | Tushar-sonawane06 | 7         | #133      | Add Leadership Section with Auto-Scrolling Cards                                     |
+| 41       | Adez017           | 7         | #134      | Add automated comment on newly opened issues                                         |
+| 42       | Adez017           | 3         | #135      | Create pull_request_template.md                                                      |
+
+
+
+
+
+
 
 
