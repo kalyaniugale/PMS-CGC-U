@@ -70,6 +70,7 @@ This document records **all contributions** to the project and assigns points ba
 | 50      | divyagit21           | 10        | #140      | Implemented interview experiences accessibility  |
 | 51      | Adez017              | 3         | #137      | Revise README for clarity and updated navigation |
 | 52      | Adez017              | 3         | #136      | Added Templates for issues                       |
+| 53      | Adez017          | 7         | #158      | Add the comprehensive cookie policy page |
 
 
 
