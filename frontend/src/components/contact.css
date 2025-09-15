@@ -1230,3 +1230,7 @@ body.light .contact-page .contact-main-content.contact-info {
     transform: translateX(-33.33%);
   }
 }
+
+body.dark .executive-card {
+  background: #1E1E1ECC;
+}
