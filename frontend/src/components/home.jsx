@@ -3,7 +3,7 @@
 import cgcBack from "../assets/cgc back2.png";
 import "./home.css";
 import { Star, Users, TrendingUp, Calendar, FileText, Award, Target, Shield, Zap, Globe, BookOpen, Briefcase } from 'lucide-react';
-
+import { Link } from "react-router-dom";
 function Home() {
   const features = [
     {
@@ -114,9 +114,9 @@ function Home() {
             <button className="btn btn-primary">
               Explore Opportunities
             </button>
-            <button className="btn btn-secondary">
+            <Link to="/About" className="btn btn-secondary">
               Learn More
-            </button>
+            </Link>
           </div>
         </div>
       </section>
