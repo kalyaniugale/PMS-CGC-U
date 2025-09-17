@@ -1,5 +1,6 @@
 .sign-container {
-  min-height: calc(100vh - 120px); /* Adjust 120px to header+footer height if needed */
+  min-height: calc(100vh - 120px);
+  /* Adjust 120px to header+footer height if needed */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -71,7 +72,7 @@ body.light .sign-card input {
 
 .sign-card button[type="submit"] {
   background: #800000;
-  color: #fff;  
+  color: #fff;
   border: none;
   border-radius: 6px;
   padding: 0.4rem 0;
@@ -114,10 +115,34 @@ body.light .sign-card input {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
+  position: relative;
+}
+
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding-right: 2.5rem; 
+  box-sizing: border-box;
+}
+
+.toggle-icon {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #888;
+  z-index: 2;
+  font-size: 1rem;
 }
 
 .error-text {
-  color: #9a0d0d; /* dark maroon */
+  color: #9a0d0d;
+  /* dark maroon */
   font-size: 0.82rem;
   margin-left: 0.25rem;
 }
@@ -130,7 +155,7 @@ body.light .sign-card input {
 
 .input-error {
   border: 1.5px solid #9a0707 !important;
-  box-shadow: 0 0 0 3px rgba(107,15,15,0.06);
+  box-shadow: 0 0 0 3px rgba(107, 15, 15, 0.06);
 }
 
 .error-icon {
@@ -140,8 +165,9 @@ body.light .sign-card input {
 }
 
 .input-success {
-  border: 1.5px solid #16a34a !important; /* green-600 */
-  box-shadow: 0 0 0 3px rgba(16,163,127,0.06);
+  border: 1.5px solid #16a34a !important;
+  /* green-600 */
+  box-shadow: 0 0 0 3px rgba(16, 163, 127, 0.06);
 }
 
 /* small screens: make card width adapt */
@@ -150,7 +176,10 @@ body.light .sign-card input {
     width: calc(100% - 40px);
     padding: 1.5rem;
   }
-  .sign-card h2 { font-size: 1.25rem; }
+
+  .sign-card h2 {
+    font-size: 1.25rem;
+  }
 }
 
 /* Forgot password */
