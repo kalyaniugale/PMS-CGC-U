@@ -1,7 +1,7 @@
 /* Maroon Theme Variables */
 :root {
-  --bg-dark: #600018;
-  --bg-darker: #600018;
+  --bg-dark: #121212;
+  --bg-darker: #1e1e1e;
   --text-primary: #ffffff;
   --text-secondary: #e0e0e0;
   --primary-maroon: #800020;
@@ -25,7 +25,7 @@
   width: 100vw;
   max-width: 100vw;
   margin: 0;
-  padding: 0;
+  padding: 0 2rem;
 }
 
 /* Light Theme Variables */
@@ -209,11 +209,10 @@ body.light .hero-description {
 }
 
 .btn-outline:hover {
-  background: var(--primary-maroon); /* maroon theme */
-  color: var(--text-primary);        /* matching text color */
-  transform: scale(1.05);            /* subtle scale effect from master */
+  background: var(--primary-maroon);
+  color: var(--text-primary);
+  transform: scale(1.05);
 }
-
 
 body.light .btn-primary {
   background-color: #800020;
@@ -248,40 +247,72 @@ body.light .btn-outline:hover {
   color: var(--text-primary);
 }
 
+/* CORRECTED SECTION HEADER STYLES */
+/* All of the sections' headers */
+.section-header {
+  text-align: center; /* This centers the heading */
+  margin-bottom: 4rem;
+  padding: 0 1rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section-title {
+  font-size: 4rem; /* Making the font size larger */
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(
+    135deg,
+    var(--text-primary),
+    var(--primary-maroon-light)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+.section-description {
+  font-size: 1.5rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin: 0;
+  font-weight: 400;
+  opacity: 0.9;
+}
+
+/* Light mode section header adjustments */
+body.light .section-title {
+  background: linear-gradient(
+    135deg,
+    var(--primary-maroon-dark),
+    var(--primary-maroon)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+body.light .section-description {
+  color: var(--text-secondary);
+  opacity: 0.8;
+}
+
 /* Features Section */
 .features-section {
   padding: 5rem 0;
   background: var(--bg-darker);
 }
 
-.section-header {
-  text-align: center;
-  margin-bottom: 4rem;
-}
-
-.section-title {
-  font-size: 2.5rem;
-  font-weight: 800;
-  margin-bottom: 1rem;
-  background-color: white;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  display: inline-block;
-}
-
-.section-description {
-  font-size: 1.25rem;
-  color: var(--text-secondary);
-  max-width: 48rem;
-  margin: 0 auto;
-  line-height: 1.6;
-}
-
 .features-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .feature-card {
@@ -348,10 +379,6 @@ body.light .feature-title {
   color: var(--text-primary);
 }
 
-body.light .section-title {
-  color: var(--maroon-700);
-}
-
 body.light .feature-description {
   color: var(--text-secondary);
 }
@@ -366,6 +393,8 @@ body.light .feature-description {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .alumni-card {
@@ -456,6 +485,8 @@ body.light .alumni-package {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .partner-card {
@@ -492,6 +523,40 @@ body.light .alumni-package {
 body.light .partners-section {
   background: var(--bg-darker);
 }
+
+
+body.light .section-header .section-title {
+    font-size: 3rem;
+    text-align: center;
+    margin-left: 9rem;
+    background: linear-gradient(
+        135deg,
+        var(--primary-maroon-dark),
+        var(--primary-maroon)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+body.dark .section-header .section-title {
+    font-size: 3rem;
+    text-align: center;
+    margin-left: 9rem;
+    background: linear-gradient(
+        135deg,
+        var(--primary-maroon-dark),
+        var(--primary-maroon)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+
+
+
+
 
 body.light .partner-card {
   background: rgba(255, 255, 255, 0.8);
@@ -541,6 +606,8 @@ body.light .partner-card:hover .partner-logo {
   text-align: center;
   position: relative;
   z-index: 1;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .stat-item {
@@ -549,21 +616,19 @@ body.light .partner-card:hover .partner-logo {
   border-radius: var(--border-radius);
   border: 1px solid rgba(128, 0, 32, 0.2);
   backdrop-filter: blur(8px);
-
-  /* Add smooth animation */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .stat-item:hover {
-  transform: translateY(-10px); /* Moves upward */
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Adds depth */
+  transform: translateY(-10px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
 .stat-number {
   font-size: 3rem;
   font-weight: 800;
   margin-bottom: 0.5rem;
-  color: var(--maroon-500);
+  color: var(--primary-maroon-light);
 }
 
 .stat-label {
@@ -572,10 +637,9 @@ body.light .partner-card:hover .partner-logo {
   opacity: 0.9;
 }
 
-/* CORRECTED LIGHT MODE STYLES */
+/* Light mode stats section */
 body.light .stats-section {
-  /* This change removes the patchy linear-gradient background */
-  background: transparent; 
+  background: transparent;
   position: relative;
   overflow: hidden;
 }
@@ -586,7 +650,6 @@ body.light .stats-section::before {
 }
 
 body.light .stat-item {
-  /* Using a solid white background with transparency for the cards */
   background: rgba(255, 255, 255, 0.8);
   border: 1px solid rgba(128, 0, 32, 0.1);
   backdrop-filter: none;
@@ -639,10 +702,15 @@ body.light .stat-label {
   font-size: 2.5rem;
   font-weight: 800;
   margin-bottom: 1.5rem;
-  background-color: #ffd2dd;
+  background: linear-gradient(
+    135deg,
+    #ffd2dd,
+    var(--primary-maroon-light)
+  );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  line-height: 1.2;
 }
 
 .cta-description {
@@ -685,8 +753,8 @@ body.light .cta-section::before {
 
 body.light .cta-title {
   background: linear-gradient(
-    90deg,
-    var(--text-primary),
+    135deg,
+    var(--primary-maroon-dark),
     var(--primary-maroon)
   );
   -webkit-background-clip: text;
@@ -698,7 +766,6 @@ body.light .cta-description {
   color: var(--text-secondary);
 }
 
-/* Light Mode CTA Buttons Layout */
 body.light .cta-buttons {
   flex-direction: row;
   gap: 1rem;
@@ -706,6 +773,34 @@ body.light .cta-buttons {
 }
 
 /* Responsive Design */
+@media (max-width: 640px) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  .section-header {
+    padding: 0 0.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .section-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .section-description {
+    font-size: 1rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+  }
+}
+
 @media (min-width: 640px) {
   .hero-buttons {
     flex-direction: row;
@@ -731,6 +826,10 @@ body.light .cta-buttons {
 
   .section-title {
     font-size: 3rem;
+  }
+
+  .section-description {
+    font-size: 1.2rem;
   }
 
   .cta-title {
