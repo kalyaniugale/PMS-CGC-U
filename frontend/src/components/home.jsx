@@ -1,9 +1,8 @@
-
-
 import cgcBack from "../assets/cgc back2.png";
 import "./home.css";
-import { Star, Users, TrendingUp, Calendar, FileText, Award, Target, Shield, Zap, Globe, BookOpen, Briefcase } from 'lucide-react';
+import { Users, Briefcase, Calendar, FileText, Target, Shield, Zap, BookOpen } from 'lucide-react';
 import { Link } from "react-router-dom";
+
 function Home() {
   const features = [
     {
@@ -26,7 +25,6 @@ function Home() {
       title: "Resume Builder",
       description: "Built-in resume builder with templates and optimization suggestions."
     },
-
     {
       icon: <Target className="feature-icon" />,
       title: "Job Matching",
@@ -47,7 +45,6 @@ function Home() {
       title: "Training Resources",
       description: "Placement prep materials, mock interviews, skill assessments, and actual questions asked to seniors in previous interviews."
     }
-
   ];
 
   const alumni = [
@@ -57,8 +54,7 @@ function Home() {
       company: "Microsoft",
       package: "₹42 LPA",
       image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=faces"
-    }
-    ,
+    },
     { name: "Rohit Kumar", company: "Amazon", package: "₹38 LPA", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face" },
     { name: "Sneha Singh", company: "Apple", package: "₹50 LPA", image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face" },
     { name: "Vikash Gupta", company: "Meta", package: "₹46 LPA", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face" },
@@ -69,15 +65,12 @@ function Home() {
     { name: "Ritu Sharma", company: "Uber", package: "₹34 LPA", image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face" }
   ];
 
-
-
   const companies = [
     { name: "Google", logo: "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" },
     { name: "Microsoft", logo: "https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg" },
     { name: "Amazon", logo: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" },
     { name: "Apple", logo: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" },
     { name: "Meta", logo: "https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg" },
-
     { name: "Oracle", logo: "https://upload.wikimedia.org/wikipedia/commons/5/50/Oracle_logo.svg" },
     { name: "IBM", logo: "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg" },
     { name: "Intel", logo: "https://upload.wikimedia.org/wikipedia/commons/7/7d/Intel_logo_%282006-2020%29.svg" },
@@ -86,10 +79,8 @@ function Home() {
     { name: "Dell", logo: "https://upload.wikimedia.org/wikipedia/commons/1/18/Dell_logo_2016.svg" },
     { name: "Accenture", logo: "https://upload.wikimedia.org/wikipedia/commons/c/cd/Accenture.svg" },
     { name: "Deloitte", logo: "https://upload.wikimedia.org/wikipedia/commons/1/15/Deloitte_Logo.png" },
-
     { name: "Wipro", logo: "https://upload.wikimedia.org/wikipedia/commons/a/a0/Wipro_Primary_Logo_Color_RGB.svg" },
     { name: "Uber", logo: "https://upload.wikimedia.org/wikipedia/commons/5/58/Uber_logo_2018.svg" },
-
   ];
 
   return (
@@ -99,13 +90,9 @@ function Home() {
         <div className="hero-background" style={{ backgroundImage: `url(${cgcBack})` }}>
           <div className="hero-overlay"></div>
         </div>
-
         <div className="hero-content">
           <h1 className="hero-title">
             CGC UNIVERSITY
-            <span className="hero-subtitle">
-              Campus Recruitment Portal
-            </span>
           </h1>
           <p className="hero-description">
             Empowering Dreams, Creating Futures - Your Gateway to Success
@@ -128,11 +115,7 @@ function Home() {
             <h2 className="section-title">
               Comprehensive Features
             </h2>
-            <p className="section-description">
-              Our advanced Campus Recruitment Portal offers everything you need for successful campus placements
-            </p>
           </div>
-
           <div className="features-grid">
             {features.map((feature, index) => (
               <div key={index} className="feature-card">
@@ -158,11 +141,7 @@ function Home() {
             <h2 className="section-title">
               Alumni Success Stories
             </h2>
-            <p className="section-description">
-              Our graduates are making their mark at the world's leading companies
-            </p>
           </div>
-
           <div className="alumni-grid">
             {alumni.map((alum, index) => (
               <div key={index} className="alumni-card">
@@ -197,24 +176,18 @@ function Home() {
             <h2 className="section-title">
               Our Industry Partners
             </h2>
-            <p className="section-description">
-              Collaborating with industry leaders to provide the best opportunities for our students
-            </p>
           </div>
-
           <div className="partners-grid">
             {companies.map((company, index) => (
               <div key={index} className="partner-card">
                 <img
-                  src={company.name==='Deloitte'?"/deloitte-seeklogo.svg":
-                    company.logo}
+                  src={company.name === 'Deloitte' ? "/deloitte-seeklogo.svg" : company.logo}
                   alt={company.name}
                   className="partner-logo"
                   onError={(e) => {
                     e.target.onerror = null;
                     e.target.src = `https://placehold.co/150x60/121212/FFFFFF?text=${company.name}`;
                   }}
-
                 />
               </div>
             ))}
