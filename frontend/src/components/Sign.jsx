@@ -127,6 +127,21 @@ function Sign() {
     setValid({});
   };
 
+  function resetForm() {
+    setForm({
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    })
+
+    setErrors({})
+    setTouched({})
+    setValid({})
+    setShowPassword(false);
+    setShowConfirmPassword(false);
+  }
+
   return (
     <div className="sign-container">
       <div className="sign-card">
@@ -250,11 +265,11 @@ function Sign() {
         <div className="toggle-link">
           {isRegister ? (
             <span>
-              Already have an account? <button onClick={() => setIsRegister(false)}>Sign In</button>
+              Already have an account? <button onClick={() => { setIsRegister(false); resetForm() }}>Sign In</button>
             </span>
           ) : (
             <span>
-              New user? <button onClick={() => setIsRegister(true)}>Register</button>
+              New user? <button onClick={() => { setIsRegister(true); resetForm() }}>Register</button>
             </span>
           )}
         </div>

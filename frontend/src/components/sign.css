@@ -140,6 +140,10 @@ body.light .sign-card input {
   font-size: 1rem;
 }
 
+.dark .toggle-icon{
+  color: #d1d5db;
+}
+
 .error-text {
   color: #9a0d0d;
   /* dark maroon */
