@@ -57,21 +57,24 @@ This document records **all contributions** to the project and assigns points ba
 | 37       | @divyagit21       | 10        | #140      | Implemented interview experiences accessibility                                      |
 | 38       | @Adez017          | 3         | #137      | Revise README for clarity and updated navigation                                     |
 | 39       | @Adez017          | 3         | #136      | Added Templates for issues                                                           |
-| 40      | Tushar-sonawane06    | 7         | #133      | Add Leadership Section with Auto-Scrolling Cards |
-| 41      | Adez017              | 7         | #134      | Add automated comment on newly opened issues     |
-| 42      | Adez017              | 3         | #135      | Create pull_request_template.md                  |
-| 43      | Adez017              | 7         | #157      | Added Privacy Policy page                        |
-| 44      | Adez017              | 3         | #155      | Fixed the contributing.md                        |
-| 45      | Adez017              | 7         | #154      | Fixed the failing Workflow                       |
-| 46      | Tushar-sonawane06    | 3         | #147      | Dark mode updated                                |
-| 47      | divyagit21           | 10        | #146      | Updated user authorization                       |
-| 48      | divyagit21           | 7         | #143      | Edit interview experiences added                 |
-| 49      | tamanna-dhir         | 3         | #142      | Add Privacy Policy page and route                |
-| 50      | divyagit21           | 10        | #140      | Implemented interview experiences accessibility  |
-| 51      | Adez017              | 3         | #137      | Revise README for clarity and updated navigation |
-| 52      | Adez017              | 3         | #136      | Added Templates for issues                       |
-| 53      | Adez017           | 7          | #158      | Add the comprehensive cookie policy page |
-| 54       | divyagit21       | 7          | #160      | contact fixed in footer                                                               |
+| 40       | Tushar-sonawane06 | 7         | #133      | Add Leadership Section with Auto-Scrolling Cards                                     |
+| 41       | Adez017           | 7         | #134      | Add automated comment on newly opened issues                                         |
+| 42       | Adez017           | 3         | #135      | Create pull_request_template.md                                                      |
+| 43       | Adez017           | 7         | #157      | Added Privacy Policy page                                                            |
+| 44       | Adez017           | 3         | #155      | Fixed the contributing.md                                                            |
+| 45       | Adez017           | 7         | #154      | Fixed the failing Workflow                                                           |
+| 46       | Tushar-sonawane06 | 3         | #147      | Dark mode updated                                                                    |
+| 47       | divyagit21        | 10        | #146      | Updated user authorization                                                           |
+| 48       | divyagit21        | 7         | #143      | Edit interview experiences added                                                     |
+| 49       | tamanna-dhir      | 3         | #142      | Add Privacy Policy page and route                                                    |
+| 50       | divyagit21        | 10        | #140      | Implemented interview experiences accessibility                                      |
+| 51       | Adez017           | 3         | #137      | Revise README for clarity and updated navigation                                     |
+| 52       | Adez017           | 3         | #136      | Added Templates for issues                                                           |
+| 53       | Adez017           | 7         | #158      | Add the comprehensive cookie policy page                                             |
+| 54       | divyagit21        | 7         | #160      | contact fixed in footer                                                              |
+| 55       | kalyaniugale      | 3         | #163      | fix(home): make 'Learn More' button navigate to About page (#161)                    |
+| 56       | divyagit21        | 3         | #167      | toggle-eye added                                                                     |
+| 57       | Codeboy20         | 3         | #169      | feat: Center and Enlarge Section Headings                                            |
 
 
 
