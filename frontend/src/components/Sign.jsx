@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { signup, signin } from "../../api/auth";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./sign.css";
 
 function Sign() {
   // Register vs Sign-in
   const [isRegister, setIsRegister] = useState(false);
-
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   // Form state -- added phone for registration (assumption: phone required on register)
   const [form, setForm] = useState({
     name: "",
@@ -19,6 +21,14 @@ function Sign() {
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
   const [valid, setValid] = useState({});
+
+  const togglePassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const toggleConfirmPassword = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
 
   // Simple validators
   const validateField = (name, value) => {
@@ -73,7 +83,7 @@ function Sign() {
     return !hasError;
   };
 
- const handleRegister = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     if (!validateAll()) return;
     try {
@@ -82,9 +92,9 @@ function Sign() {
         setErrors({ general: res.error });
         return;
       }
-      
-      setIsRegister(false); 
-      setForm({email:'',password:''});
+
+      setIsRegister(false);
+      setForm({ email: '', password: '' });
 
     } catch (err) {
       if (err.response && err.response.status === 409) {
@@ -169,17 +179,23 @@ function Sign() {
 
           <div className="field-wrap">
             <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              name="password"
-              placeholder="Enter Password"
-              value={form.password}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              className={errors.password ? "input-error" : valid.password ? "input-success" : ""}
-              aria-invalid={!!errors.password}
-              aria-describedby="password-error"
-            />
+            <div className="input-wrapper">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Enter Password"
+                value={form.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                className={errors.password ? "input-error" : valid.password ? "input-success" : ""}
+                aria-invalid={!!errors.password}
+                aria-describedby="password-error"
+              />
+              <span className="toggle-icon" onClick={togglePassword}>
+                {showPassword ? <FaEye /> : <FaEyeSlash />}
+              </span>
+            </div>
+
             {((touched.password || errors.password) && errors.password) && (
               <div id="password-error" className="error-text" role="alert">
                 <span className="error-icon" aria-hidden="true">⚠</span>
@@ -200,17 +216,23 @@ function Sign() {
           {isRegister && (
             <div className="field-wrap">
               <label htmlFor="confirmpassword">Confirm Password</label>
-              <input
-                type="password"
-                name="confirmPassword"
-                placeholder="Confirm Password"
-                value={form.confirmPassword}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className={errors.confirmPassword ? "input-error" : valid.confirmPassword ? "input-success" : ""}
-                aria-invalid={!!errors.confirmPassword}
-                aria-describedby="confirm-error"
-              />
+              <div className="input-wrapper">
+                <input
+                  type={showConfirmPassword ? "text" : "password"}
+                  name="confirmPassword"
+                  placeholder="Confirm Password"
+                  value={form.confirmPassword}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={errors.confirmPassword ? "input-error" : valid.confirmPassword ? "input-success" : ""}
+                  aria-invalid={!!errors.confirmPassword}
+                  aria-describedby="confirm-error"
+                />
+                <span className="toggle-icon" onClick={toggleConfirmPassword}>
+                  {showConfirmPassword ? <FaEye /> : <FaEyeSlash />}
+                </span>
+              </div>
+
               {((touched.confirmPassword || errors.confirmPassword) && errors.confirmPassword) && (
                 <div id="confirm-error" className="error-text" role="alert">
                   <span className="error-icon" aria-hidden="true">⚠</span>
