@@ -9,6 +9,7 @@ function Sign() {
   const [isRegister, setIsRegister] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false)
   // Form state -- added phone for registration (assumption: phone required on register)
   const [form, setForm] = useState({
     name: "",
@@ -87,12 +88,13 @@ function Sign() {
     e.preventDefault();
     if (!validateAll()) return;
     try {
+      setLoading(true);
       const res = await signup(form);
+      setLoading(false);
       if (res.error) {
         setErrors({ general: res.error });
         return;
       }
-
       setIsRegister(false);
       setForm({ email: '', password: '' });
 
@@ -107,10 +109,11 @@ function Sign() {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-
     if (!validateAll()) return;
     // Await the API call
+    setLoading(true);
     const res = await signin(form);
+    setLoading(false);
     console.log("Sign-in response:", res);
     if (res.error) {
       alert("Sign-in failed: " + res.error);
@@ -256,8 +259,10 @@ function Sign() {
               )}
             </div>
           )}
+           
+           {/* Button with loader when registering or signing in*/}
+           <button type="submit" className={`btn-signin ${loading ? "loading" : ""}`} disabled={loading}><span className="btn-text">{isRegister ? "Register" : "Sign In"}</span>{loading && <span className="spinner"></span>}</button>
 
-          <button type="submit">{isRegister ? "Register" : "Sign In"}</button>
         </form>
 
         {errors.general && <div className="error">{errors.general}</div>}
