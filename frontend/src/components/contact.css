@@ -195,6 +195,10 @@ body.light .contact-card a:hover::after {
   width: 100%;
 }
 
+body.dark .contact-info{
+  border:none;
+}
+
 /* Executive Director Section */
 .executive-section {
   max-width: 1200px;
