@@ -75,10 +75,10 @@ This document records **all contributions** to the project and assigns points ba
 | 55       | kalyaniugale      | 3         | #163      | fix(home): make 'Learn More' button navigate to About page (#161)                    |
 | 56       | divyagit21        | 3         | #167      | toggle-eye added                                                                     |
 | 57       | Codeboy20         | 3         | #169      | feat: Center and Enlarge Section Headings                                            |
-|43         | divyagit21        | 7         | #170     | Form updated independently (Register & Signin)  
-
-
-
+| 58       | divyagit21        | 7         | #170      | Form updated independently (Register & Signin)                                       |
+| 59       | Tushar-sonawane06 | 3         | #176      | Unwanted Border Removed                                                              |
+| 60       | Tushar-sonawane06 | 3         | #181      | Border Removed                                                                       |
+| 61       | surajsingh9389    | 7         | #182      | Feat/add loader and disable effect                                                   |
 
 
 
