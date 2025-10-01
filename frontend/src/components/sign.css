@@ -1,0 +1,309 @@
+.sign-container {
+  min-height: calc(100vh - 120px);
+  /* Adjust 120px to header+footer height if needed */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--border-radius);
+  color: var(--text-primary);
+}
+
+body.light .sign-container {
+  color: var(--text-primary);
+}
+
+body.light .sign-card {
+  background: #fff;
+}
+
+.sign-card {
+  background: rgba(30, 30, 30, 0.8);
+  padding: 2.5rem 2rem;
+  border-radius: 16px;
+  border: 1px solid #800000;
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+body.light .sign-card h2 {
+  color: #800000;
+
+}
+.sign-card h2 {
+  color: #b70c0c;
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.sign-card form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.sign-card input {
+  padding: 0.3rem 0.6rem;
+  outline: 1px solid gray;
+  border-radius: 6px;
+  background-color: rgb(147, 147, 147);
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.2s;
+}
+
+body.light .sign-card input {
+  padding: 0.3rem 0.6rem;
+  outline: 1px solid gray;
+  border-radius: 6px;
+  background-color: rgb(244, 244, 244);
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.2s;
+}
+
+
+.sign-card input:focus {
+  border: 1.5px solid #800000;
+}
+
+.sign-card button[type="submit"] {
+  background: #800000;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem 0;
+  margin-top: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.sign-card button[type="submit"]:hover {
+  background: #930505;
+  box-shadow: 0 0 35px rgba(255, 0, 0, 0.2);
+}
+
+.toggle-link {
+  margin-top: 1rem;
+  font-size: 0.98rem;
+}
+
+.toggle-link button {
+  background: none;
+  border: none;
+  color: #2563eb;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0;
+  margin-left: 0.2rem;
+  text-decoration: underline;
+}
+
+.toggle-link button:hover {
+  color: #1e40af;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+/* Validation UI */
+.field-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  position: relative;
+}
+
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding-right: 2.5rem; 
+  box-sizing: border-box;
+}
+
+.toggle-icon {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #888;
+  z-index: 2;
+  font-size: 1rem;
+}
+
+.dark .toggle-icon{
+  color: #d1d5db;
+}
+
+.error-text {
+  color: #9a0d0d;
+  /* dark maroon */
+  font-size: 0.82rem;
+  margin-left: 0.25rem;
+}
+
+.error-text {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.input-error {
+  border: 1.5px solid #9a0707 !important;
+  box-shadow: 0 0 0 3px rgba(107, 15, 15, 0.06);
+}
+
+.error-icon {
+  font-size: 0.95rem;
+  line-height: 1;
+  display: inline-block;
+}
+
+.input-success {
+  border: 1.5px solid #16a34a !important;
+  /* green-600 */
+  box-shadow: 0 0 0 3px rgba(16, 163, 127, 0.06);
+}
+
+/* small screens: make card width adapt */
+@media (max-width: 420px) {
+  .sign-card {
+    width: calc(100% - 40px);
+    padding: 1.5rem;
+  }
+
+  .sign-card h2 {
+    font-size: 1.25rem;
+  }
+}
+
+/* Forgot password */
+.forgot-password {
+  margin-top: 0.5rem;
+  text-align: center;
+  color: #007bff;
+}
+
+.forgot-password .forgot-link {
+  text-decoration: none;
+  font-size: 0.93rem;
+  cursor: pointer;
+}
+
+.forgot-password .forgot-link:hover {
+  text-decoration: underline;
+  color: #024f83;
+}
+
+.forgot-password .forgot-link:focus {
+  outline: 3px solid #024f83;
+  border-radius: 4px;
+}
+
+
+.btn-signin {
+  position: relative !important;      
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  transform: none !important;
+}
+
+.btn-signin.loading {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.btn-signin.loading .btn-text {
+  visibility: hidden;
+}
+
+.btn-signin .spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(0deg);
+  transform-origin: center center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin-rotate-center 1s linear infinite;
+}
+
+/* --- Decorative Progress Bar --- */
+.progress-bar-wrapper {
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+.progress-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: #6b7280; /* gray-500 for light mode */
+    margin-bottom: 0.5rem;
+    padding: 0 5px;
+}
+
+body.dark .progress-labels {
+    color: #9ca3af; /* gray-400 for dark mode */
+}
+
+.progress-bar-dynamic-container {
+    width: 100%;
+    height: 12px;
+    background-color: #e5e7eb; /* gray-200 for light mode */
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #d1d5db;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+}
+
+body.dark .progress-bar-dynamic-container {
+    background-color: #374151; /* gray-700 for dark mode */
+    border-color: #4b5563;
+}
+
+.progress-bar-dynamic-filler {
+    height: 100%;
+    background-image: linear-gradient(45deg, #b90000, #800000);
+    border-radius: 4px;
+    transition: width 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.progress-segment {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: rgba(255, 255, 255, 0.5); /* Lighter separator for dark bar */
+}
+
+body.dark .progress-segment {
+    background-color: rgba(0, 0, 0, 0.3); /* Darker separator for light bar */
+}
+
+.progress-segment:nth-of-type(1) { left: 25%; }
+.progress-segment:nth-of-type(2) { left: 50%; }
+.progress-segment:nth-of-type(3) { left: 75%; }
+
+@keyframes spin-rotate-center {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
