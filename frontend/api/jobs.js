@@ -11,9 +11,14 @@ export const createJob = async (jobData) => {
     throw new Error('Admin authentication required');
   }
   
+  // Check if jobData is FormData
+  const isFormData = jobData instanceof FormData;
+  
   const res = await api.post('/api/jobs', jobData, {
     headers: {
-      'Authorization': `Bearer ${adminToken}`
+      'Authorization': `Bearer ${adminToken}`,
+      // Set Content-Type explicitly based on data type
+      ...(isFormData ? {} : { 'Content-Type': 'application/json' })
     }
   });
   return res.data;
@@ -25,9 +30,14 @@ export const updateJob = async (jobId, jobData) => {
     throw new Error('Admin authentication required');
   }
   
+  // Check if jobData is FormData
+  const isFormData = jobData instanceof FormData;
+  
   const res = await api.put(`/api/jobs/${jobId}`, jobData, {
     headers: {
-      'Authorization': `Bearer ${adminToken}`
+      'Authorization': `Bearer ${adminToken}`,
+      // Set Content-Type explicitly based on data type
+      ...(isFormData ? {} : { 'Content-Type': 'application/json' })
     }
   });
   return res.data;

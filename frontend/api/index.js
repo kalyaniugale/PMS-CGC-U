@@ -3,7 +3,7 @@ import API_BASE_URL from '../src/config/api';
 
 export const api = axios.create({
   baseURL: API_BASE_URL,
-  headers: { 'Content-Type': 'application/json' }
+  // Don't set default Content-Type - let individual requests set it
 });
 
 export const setAuthToken = (token) => {
@@ -16,7 +16,7 @@ export const setAuthToken = (token) => {
   }
 };
 
-// Add a request interceptor to include the token
+// Add a request interceptor to include the token and set content-type
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token'); // For general user
@@ -27,6 +27,12 @@ api.interceptors.request.use(
     } else if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    
+    // Set Content-Type to JSON if not already set and data is not FormData
+    if (!config.headers['Content-Type'] && !(config.data instanceof FormData)) {
+      config.headers['Content-Type'] = 'application/json';
+    }
+    
     return config;
   },
   (error) => {

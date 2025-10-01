@@ -14,6 +14,20 @@ exports.getAllJobs = async (req, res) => {
 
 exports.createJob = async (req, res) => {
   try {
+    console.log('=== CREATE JOB REQUEST ===');
+    console.log('Request body:', req.body);
+    console.log('Request file:', req.file);
+    console.log('Request headers:', req.headers);
+    
+    const jobData = { ...req.body };
+  } catch (err) {
+    console.error('Error fetching jobs:', err);
+    res.status(500).json({ error: 'Failed to fetch jobs', details: err.message });
+  }
+};
+
+exports.createJob = async (req, res) => {
+  try {
     console.log('📝 Creating new job...');
     console.log('Request body:', req.body);
     console.log('Uploaded file:', req.file ? req.file.filename : 'No file uploaded');
@@ -52,6 +66,8 @@ exports.createJob = async (req, res) => {
       jobData.companyLogo = `/uploads/${req.file.filename}`;
       console.log('✅ Logo uploaded locally:', jobData.companyLogo);
     } else {
+      // Don't set companyLogo if no file is uploaded
+      delete jobData.companyLogo;
       console.log('ℹ️ No logo uploaded for this job');
     }
     
@@ -69,7 +85,11 @@ exports.createJob = async (req, res) => {
 
 exports.updateJob = async (req, res) => {
   try {
-    console.log('Update request body:', req.body); // Debug log
+    console.log('=== UPDATE JOB REQUEST ===');
+    console.log('Update request body:', req.body);
+    console.log('Update request file:', req.file);
+    console.log('Update request headers:', req.headers);
+    
     const jobData = { ...req.body };
     
     // Handle array fields that come as individual form fields
@@ -99,9 +119,14 @@ exports.updateJob = async (req, res) => {
     if (!jobData.eligibleBranches) jobData.eligibleBranches = [];
     if (!jobData.eligibleYears) jobData.eligibleYears = [];
     
+    // Handle logo upload - only update if new file is uploaded
     if (req.file) {
       jobData.companyLogo = `/uploads/${req.file.filename}`;
       console.log('✅ Logo updated locally:', jobData.companyLogo);
+    } else {
+      // Don't update companyLogo field if no new file - preserve existing logo
+      delete jobData.companyLogo;
+      console.log('ℹ️ No new logo uploaded, preserving existing logo');
     }
     
     console.log('Processed update data:', jobData); // Debug log

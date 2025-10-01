@@ -6,7 +6,6 @@ import { getAllJobs, createJob, updateJob, deleteJob } from '../../api/jobs';
 
 const initialForm = {
   companyName: '',
-  companyLogo: '',
   companyWebsite: '',
   position: '',
   jobType: 'Full-time',
@@ -96,6 +95,7 @@ const AdminJobPosting = () => {
     
     console.log('Form submit - editId:', editId);
     console.log('Form submit - formData:', formData);
+    console.log('Form submit - logoFile:', logoFile);
     
     // Validate required fields
     if (formData.eligibleCourses.length === 0) {
@@ -108,23 +108,77 @@ const AdminJobPosting = () => {
     }
     
     try {
+      // Create FormData to handle file uploads
+      const submitData = new FormData();
+      
+      // Create a clean copy of formData without companyLogo field
+      const cleanFormData = { ...formData };
+      delete cleanFormData.companyLogo; // Explicitly remove companyLogo from form data
+      
+      console.log('Clean form data (without companyLogo):', cleanFormData);
+      
+      // Add all form fields to FormData (excluding companyLogo)
+      Object.keys(cleanFormData).forEach(key => {
+        const value = cleanFormData[key];
+        
+        // Skip empty or undefined values
+        if (value === undefined || value === null || value === '') {
+          return;
+        }
+        
+        if (Array.isArray(value)) {
+          // Handle arrays (eligibleCourses, eligibleBranches, eligibleYears)
+          if (value.length > 0) {
+            value.forEach(item => {
+              submitData.append(`${key}[]`, item);
+            });
+          }
+        } else {
+          submitData.append(key, value);
+        }
+      });
+      
+      // Add logo file if selected
+      if (logoFile) {
+        submitData.append('companyLogo', logoFile);
+        console.log('✅ Added logo file to FormData:', logoFile.name, 'Size:', logoFile.size, 'bytes');
+      } else {
+        console.log('ℹ️ No logo file selected');
+      }
+      
+      // Debug: Log FormData contents
+      console.log('FormData contents:');
+      for (let [key, value] of submitData.entries()) {
+        if (value instanceof File) {
+          console.log(`${key}: [File] ${value.name} (${value.size} bytes)`);
+        } else {
+          console.log(`${key}: ${value}`);
+        }
+      }
+      
       let job;
       
       if (editId) {
-        job = await updateJob(editId, formData);
+        job = await updateJob(editId, submitData);
         setJobPostings(jobPostings.map(j => j._id === editId ? job : j));
         alert('Job updated successfully!');
         setActiveTab('manage');
       } else {
-        job = await createJob(formData);
+        job = await createJob(submitData);
         setJobPostings([...jobPostings, job]);
         alert('Job created successfully!');
       }
+      
+      console.log('✅ Job operation successful:', job);
       
       setEditId(null);
       setFormData(initialForm);
       setLogoPreview('');
       setLogoFile(null);
+      
+      // Refresh job listings to show updated logos
+      const refreshedJobs = await getAllJobs();
+      setJobPostings(refreshedJobs);
     } catch (error) {
       console.error('Error saving job:', error);
       alert('Error saving job. Please try again.');
@@ -155,15 +209,18 @@ const AdminJobPosting = () => {
   const handleEdit = (job) => {
     console.log('Editing job:', job); // Debug log
     
+    // Create a copy of the job without the companyLogo field (handled separately)
+    const { companyLogo, ...jobWithoutLogo } = job;
+    
     // Ensure arrays are properly handled
     const editFormData = {
-      ...job,
+      ...jobWithoutLogo,
       eligibleCourses: Array.isArray(job.eligibleCourses) ? job.eligibleCourses : [],
       eligibleBranches: Array.isArray(job.eligibleBranches) ? job.eligibleBranches : [],
       eligibleYears: Array.isArray(job.eligibleYears) ? job.eligibleYears : [],
     };
     
-    console.log('Form data for edit:', editFormData); // Debug log
+    console.log('Form data for edit (without companyLogo):', editFormData); // Debug log
     
     setFormData(editFormData);
     setEditId(job._id);
@@ -171,7 +228,7 @@ const AdminJobPosting = () => {
     
     // Handle logo preview
     if (job.companyLogo) {
-      setLogoPreview(`${API_ENDPOINTS.UPLOADS}${job.companyLogo}`);
+      setLogoPreview(`${API_ENDPOINTS.UPLOADS}${job.companyLogo}?t=${Date.now()}`);
     } else {
       setLogoPreview('');
     }
@@ -584,21 +641,42 @@ const AdminJobPosting = () => {
           <tr key={posting._id}>
             <td>
               <div className="company-cell">
-                {posting.companyLogo && (
+                {posting.companyLogo ? (
                   <img 
                     src={
                       posting.companyLogo.startsWith('http') 
                         ? posting.companyLogo 
-                        : `${API_ENDPOINTS.UPLOADS}${posting.companyLogo}`
+                        : `${API_ENDPOINTS.UPLOADS}${posting.companyLogo}?t=${Date.now()}`
                     }
                     alt={posting.companyName}
                     className="company-logo-small"
                     onError={(e) => {
-                      e.target.src = '/default-logo.png';
-                      e.target.onerror = null;
+                      // If logo fails to load, hide image and show initials
+                      e.target.style.display = 'none';
+                      const initialsDiv = e.target.nextSibling;
+                      if (initialsDiv) initialsDiv.style.display = 'flex';
                     }}
                   />
-                )}
+                ) : null}
+                <div 
+                  className="company-initials-small"
+                  style={{ 
+                    display: posting.companyLogo ? 'none' : 'flex',
+                    width: '30px',
+                    height: '30px',
+                    backgroundColor: '#8B0000',
+                    color: 'white',
+                    borderRadius: '6px',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '12px',
+                    fontWeight: 'bold',
+                    marginRight: '8px',
+                    flexShrink: 0
+                  }}
+                >
+                  {posting.companyName ? posting.companyName.split(' ').map(word => word.charAt(0).toUpperCase()).slice(0, 2).join('') : 'CO'}
+                </div>
                 {posting.companyName}
               </div>
             </td>

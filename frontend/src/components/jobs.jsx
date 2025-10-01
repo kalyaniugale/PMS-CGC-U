@@ -7,12 +7,24 @@ import { API_ENDPOINTS } from '../config/api';
 const JobCard = ({ job, onClick }) => {
   console.log('Job data in JobCard:', job); // Debug log
   
-  // Handle logo URL for local storage only
+  // Handle logo URL for local storage
   const logoUrl = job.companyLogo
-    ? job.companyLogo.startsWith('/uploads/')
-      ? `${API_ENDPOINTS.UPLOADS}${job.companyLogo}` // Local storage URL
-      : `${API_ENDPOINTS.UPLOADS}/uploads/${job.companyLogo}` // Fallback for local
-    : '/default-logo.png'; // Default logo fallback
+    ? job.companyLogo.startsWith('http') 
+      ? job.companyLogo // Full URL (external)
+      : `${API_ENDPOINTS.UPLOADS}${job.companyLogo}?t=${Date.now()}` // Local file with cache-busting
+    : null;
+
+  console.log('JobCard - Company:', job.companyName, 'Logo path:', job.companyLogo, 'Final URL:', logoUrl);
+
+  // Generate company initials for fallback
+  const getCompanyInitials = (companyName) => {
+    if (!companyName) return 'CO';
+    return companyName
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase())
+      .slice(0, 2)
+      .join('');
+  };
 
   const skills = job.skillsRequired ? job.skillsRequired.split(',').map(s => s.trim()) : [];
 
@@ -20,11 +32,36 @@ const JobCard = ({ job, onClick }) => {
     <div className="job-card" onClick={() => onClick(job)}>
       <div className="job-card-content">
         <div className="job-card-header">
-          <img 
-            src={logoUrl} 
-            alt={`${job.companyName} logo`} 
-            className="company-logo"
-          />
+          {logoUrl ? (
+            <img 
+              src={logoUrl} 
+              alt={`${job.companyName} logo`} 
+              className="company-logo"
+              onError={(e) => {
+                // If logo fails to load, replace with initials
+                e.target.style.display = 'none';
+                e.target.nextSibling.style.display = 'flex';
+              }}
+            />
+          ) : null}
+          <div 
+            className="company-initials"
+            style={{ 
+              display: logoUrl ? 'none' : 'flex',
+              width: '50px',
+              height: '50px',
+              backgroundColor: '#8B0000',
+              color: 'white',
+              borderRadius: '8px',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '18px',
+              fontWeight: 'bold',
+              flexShrink: 0
+            }}
+          >
+            {getCompanyInitials(job.companyName)}
+          </div>
           <div className="company-name">{job.companyName}</div>
         </div>
         
@@ -120,21 +157,62 @@ const JobDetails = ({ job, onBack, onApply }) => {
   const skills = job.skillsRequired ? job.skillsRequired.split(',').map(s => s.trim()) : [];
   const benefits = job.benefits ? job.benefits.split(',').map(s => s.trim()) : [];
 
-  // Build the correct logo URL - support both Cloudinary and local storage
+  // Build the correct logo URL
   const logoUrl = job.companyLogo
     ? job.companyLogo.startsWith('http')
-      ? job.companyLogo // Cloudinary URL (starts with https://)
-      : job.companyLogo.startsWith('/uploads/')
-        ? `${API_ENDPOINTS.UPLOADS}${job.companyLogo}` // Local storage URL
-        : `${API_ENDPOINTS.UPLOADS}/uploads/${job.companyLogo}` // Fallback for local
-    : '/default-logo.png'; // Default logo fallback
+      ? job.companyLogo // Full URL (external)
+      : `${API_ENDPOINTS.UPLOADS}${job.companyLogo}?t=${Date.now()}` // Local file with cache-busting
+    : null;
+
+  console.log('JobDetails - Company:', job.companyName, 'Logo path:', job.companyLogo, 'Final URL:', logoUrl);
+
+  // Generate company initials for fallback
+  const getCompanyInitials = (companyName) => {
+    if (!companyName) return 'CO';
+    return companyName
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase())
+      .slice(0, 2)
+      .join('');
+  };
 
   return (
     <div className="job-details-container">
       <button className="back-button" onClick={onBack}>
         <span className="back-arrow">←</span> Back to Jobs
       </button>
-      <div className="job-details-header">        <img src={logoUrl} alt={`${job.companyName} logo`} className="details-logo" />
+      <div className="job-details-header">
+        {logoUrl ? (
+          <img 
+            src={logoUrl} 
+            alt={`${job.companyName} logo`} 
+            className="details-logo"
+            onError={(e) => {
+              // If logo fails to load, replace with initials
+              e.target.style.display = 'none';
+              e.target.nextSibling.style.display = 'flex';
+            }}
+          />
+        ) : null}
+        <div 
+          className="company-initials-details"
+          style={{ 
+            display: logoUrl ? 'none' : 'flex',
+            width: '80px',
+            height: '80px',
+            backgroundColor: '#8B0000',
+            color: 'white',
+            borderRadius: '12px',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '24px',
+            fontWeight: 'bold',
+            flexShrink: 0,
+            marginRight: '20px'
+          }}
+        >
+          {getCompanyInitials(job.companyName)}
+        </div>
         <div className="header-content">
           <h1>{job.position}</h1>
           <h2>{job.companyName}</h2>          <div className="job-meta">
