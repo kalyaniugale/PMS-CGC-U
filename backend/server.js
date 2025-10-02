@@ -25,6 +25,7 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:5173",
   "http://127.0.0.1:5173",
+  "http://localhost:5174", 
   "https://pms-cgc-u.vercel.app",
 ];
 const corsOptions = {

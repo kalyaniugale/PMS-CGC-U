@@ -1,206 +1,141 @@
-
 import React, { useState, useEffect } from "react";
-import "./interviewExperience.css";
-import InterviewDetail from "./InterviewDetail";
-import { getAllInterviewExperiences, addInterviewExperience, deleteInterviewExperience, editInterviewExperience } from "../../api/interviews";
+import { Link } from "react-router-dom";
+import { PencilIcon, FolderOpenIcon, LightBulbIcon } from "@heroicons/react/24/outline";
 
-export default function InterviewExperience() {
-  const [view, setView] = useState("read");
-  const [filter, setFilter] = useState({ company: "", role: "" });
-  const [experiences, setExperiences] = useState([]);
-  const [form, setForm] = useState({ company: "", role: "", experience: "" });
-  const [selected, setSelected] = useState(null);
-  const [editId, setEditId] = useState(null);
-  const [debouncedFilter, setDebouncedFilter] = useState(filter);
-  const userId = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")).id : null;
+const InterviewExperience = ({ darkMode = false }) => {
+  // TEMPORARY WORKAROUND: Detect dark mode from document/body class
+  const [actualDarkMode, setActualDarkMode] = useState(darkMode);
 
   useEffect(() => {
-    fetchExperiences();
-  }, []);
+    // Check if parent has 'dark' class on html or body
+    const checkDarkMode = () => {
+      const isDark = 
+        document.documentElement.classList.contains('dark') ||
+        document.body.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        darkMode;
+      setActualDarkMode(isDark);
+    };
 
-  // Debounce effect for filter
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedFilter(filter);
-    }, 300);
-    return () => clearTimeout(timer);
-  }, [filter])
+    checkDarkMode();
 
-  // Fetch interview experiences
-  const fetchExperiences = async () => {
-    try {
-      const data = await getAllInterviewExperiences();
-      setExperiences(data);
-      console.log(data)
-    } catch (error) {
-      console.error('Failed to fetch interview experiences:', error);
-    }
-  };
+    // Watch for changes
+    const observer = new MutationObserver(checkDarkMode);
+    observer.observe(document.documentElement, { 
+      attributes: true, 
+      attributeFilter: ['class', 'data-theme'] 
+    });
+    observer.observe(document.body, { 
+      attributes: true, 
+      attributeFilter: ['class', 'data-theme'] 
+    });
 
-  // Delete experience handler
-  const handleDelete = async (id, e) => {
-    e.stopPropagation();
-    const confirmed = window.confirm('Are you sure you want to delete this experience?');
-    if (!confirmed) return;
-    try {
-      await deleteInterviewExperience(id);
-      setExperiences(prev => prev.filter(exp => exp._id !== id));
-      alert('Experience deleted successfully.');
-    } catch (error) {
-      console.error('Failed to delete experience:', error);
-      alert('Failed to delete experience: ' + (error.message || 'Unknown error'));
-    }
-  };
-
-  const handleFilter = (e) => {
-    setFilter({ ...filter, [e.target.name]: e.target.value });
-  };
-
-  const filtered = experiences.filter(
-    (exp) =>
-      (!debouncedFilter.company || exp.company.toLowerCase().includes(debouncedFilter.company.toLowerCase())) &&
-      (!debouncedFilter.role || exp.role.toLowerCase().includes(debouncedFilter.role.toLowerCase()))
-  );
-
-  const handleFormChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      // Edit experience
-      if (editId) {
-        await editInterviewExperience(editId, form);
-        setExperiences(prev =>
-          prev.map(exp => exp._id === editId ? { ...exp, ...form } : exp)
-        );
-        alert("Interview Experience updated.");
-        setEditId(null);
-        setForm({ company: "", role: "", experience: "" });
-        setView("read");
-      }
-      else {
-        // Save experience
-        const newExp = await addInterviewExperience(form); // send to backend
-        setExperiences([...experiences, newExp]); // update local state
-        alert('Succesfully added. ')
-        setForm({ company: "", role: "", experience: "" }); // reset form
-        setView("read"); // switch to read view
-      }
-    } catch (error) {
-      console.error("Failed to submit experience:", error);
-    }
-  };
-
-  if (selected) {
-    return <InterviewDetail experience={selected} onBack={() => setSelected(null)} />;
-  }
+    return () => observer.disconnect();
+  }, [darkMode]);
 
   return (
-    <div className="interview-experience-page fade-in">
-      <h2 className="ie-title">Interview Experience Portal</h2>
-      <p className="ie-desc">Share your interview journey or read others' experiences. Use the filters to find stories by company or role.</p>
-      <div className="ie-nav">
-        <button className={view === "add" ? "active" : ""} onClick={() => setView("add")}>Add Interview Experience</button>
-        <button className={view === "read" ? "active" : ""} onClick={() => setView("read")}>Read Interview Experience</button>
-      </div>
-      {view === "add" && (
-        <form className="ie-form ie-form-redesign" onSubmit={handleFormSubmit}>
-          <div className="ie-form-row">
-            <div className="ie-form-group">
-              <label htmlFor="company">Company Name</label>
-              <input
-                id="company"
-                name="company"
-                placeholder="e.g. Google, Amazon"
-                value={form.company}
-                onChange={handleFormChange}
-                required
-              />
-            </div>
-            <div className="ie-form-group">
-              <label htmlFor="role">Role</label>
-              <input
-                id="role"
-                name="role"
-                placeholder="e.g. SDE, Analyst"
-                value={form.role}
-                onChange={handleFormChange}
-                required
-              />
-            </div>
-          </div>
-          <div className="ie-form-group">
-            <label htmlFor="experience">Your Experience</label>
-            <textarea
-              id="experience"
-              name="experience"
-              placeholder="Share your interview experience in detail..."
-              value={form.experience}
-              onChange={handleFormChange}
-              required
-              rows={7}
-            />
-          </div>
-            <button type="submit">{editId ? "Save Experience" : "Submit Experience"}</button>
-        </form>
-      )}
-      {view === "read" && (
-        <div className="ie-read-section">
-          <div className="ie-filters">
-            <input
-              name="company"
-              placeholder="Filter by Company"
-              value={filter.company}
-              onChange={handleFilter}
-            />
-            <input
-              name="role"
-              placeholder="Filter by Role"
-              value={filter.role}
-              onChange={handleFilter}
-            />
-          </div>
-          <ul className="ie-list ie-list-redesign">
-            {filtered.length === 0 && <li className="ie-empty">No experiences found.</li>}
-            {filtered.map((exp) => (
-              <li key={exp._id} className="ie-item ie-card" onClick={() => setSelected(exp)}>
-                <div className="ie-meta">
-                  <span className="ie-company">{exp.company}</span>
-                  <span className="ie-role">{exp.role}</span>
-                </div>
-                <p className="ie-text">
-                  {exp.experience.length > 120
-                    ? exp.experience.slice(0, 120) + "..."
-                    : exp.experience}
-                </p>
-                <div className="ie-card-actions">
-                  {exp.createdBy === userId ? (
-                    <>
-                      <button className="ie-delete-btn" onClick={e => handleDelete(exp._id, e)}>
-                        Delete
-                      </button>
-                      <button className="ie-edit-btn" onClick={e => {
-                        e.stopPropagation(); setForm({
-                          company: exp.company,
-                          role: exp.role,
-                          experience: exp.experience
-                        }); setView("add"); setEditId(exp._id)
-                      }}>
-                        Edit
-                      </button>
+    <div className={`max-w-6xl mx-auto p-8 ${actualDarkMode ? "text-gray-900 bg-gray-900" : "text-gray-900 bg-white"}`}>
+      
+     
 
-                    </>
-                  ) : (
-                    <button className="ie-view-btn" onClick={e => { e.stopPropagation(); setSelected(exp); }}>Read</button>
-                  )}
-                </div>
-              </li>
-            ))}
-          </ul>
+      {/* Hero Section */}
+      <div
+        className={`grid md:grid-cols-2 gap-8 items-center p-8 rounded-2xl shadow-md mb-12 ${
+          actualDarkMode ? "bg-gray-800" : "bg-pink-50"
+        }`}
+      >
+        <div>
+          <div className="flex items-center mb-4 space-x-2">
+            <LightBulbIcon className="w-8 h-8 text-red-500" />
+            <h1 className={`text-3xl font-bold ${actualDarkMode ? "text-red-400" : "text-red-700"}`}>
+              Empowering Your Career Journey
+            </h1>
+          </div>
+          <p className={`mb-6 ${actualDarkMode ? "text-gray-200" : "text-gray-600"}`}>
+            Welcome to the Campus Recruitment Portal's Interview Experience Hub. Share your insights to help peers and
+            explore real-world interview stories from successful students and alumni to prepare smarter for your dream job.
+          </p>
+          <div className="flex gap-4">
+            <Link
+              to="/interview-experience/share"
+              style={{ textDecoration: "none" }}
+              className="px-5 py-3 rounded-lg bg-red-600 hover:bg-red-700 text-white font-medium shadow-md transition transform hover:scale-105 hover:shadow-lg no-underline decoration-none hover:decoration-none"
+            >
+              Share Your Experience
+            </Link>
+            <Link
+              to="/interview-experience/browse"
+              style={{ textDecoration: "none" }}
+              className={`px-5 py-3 rounded-lg font-medium shadow-md transition transform hover:scale-105 hover:shadow-lg no-underline decoration-none hover:decoration-none ${
+                actualDarkMode ? "bg-gray-700 hover:bg-gray-600 text-white" : "bg-pink-100 hover:bg-pink-200 text-pink-900"
+              }`}
+            >
+              Browse Experiences
+            </Link>
+          </div>
         </div>
-      )}
+        <div className="flex justify-center">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/3048/3048122.png"
+            alt="Career Illustration"
+            className="w-64"
+          />
+        </div>
+      </div>
+
+      {/* Two Feature Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
+        <Link
+          to="/interview-experience/share"
+          style={{ textDecoration: "none" }}
+          className={`p-8 rounded-xl border transition transform hover:scale-105 hover:shadow-xl no-underline decoration-none hover:decoration-none ${
+            actualDarkMode ? "border-gray-600 bg-gray-800" : "border-purple-300 bg-white"
+          }`}
+        >
+          <div className="flex items-center gap-3 mb-3">
+            <PencilIcon className="w-8 h-8 text-red-500" />
+            <h2 className={`text-xl font-semibold ${actualDarkMode ? "text-white" : "text-gray-800"}`}>
+              Share Experience
+            </h2>
+          </div>
+          <p className={actualDarkMode ? "text-gray-200" : "text-gray-600"}>
+            Fill out a form to share your interview process with others, contributing to a rich knowledge base.
+          </p>
+        </Link>
+
+        <Link
+          to="/interview-experience/browse"
+          style={{ textDecoration: "none" }}
+          className={`p-8 rounded-xl border transition transform hover:scale-105 hover:shadow-xl no-underline decoration-none hover:decoration-none ${
+            actualDarkMode ? "border-gray-600 bg-gray-800" : "border-pink-200 bg-white"
+          }`}
+        >
+          <div className="flex items-center gap-3 mb-3">
+            <FolderOpenIcon className="w-8 h-8 text-pink-500" />
+            <h2 className={`text-xl font-semibold ${actualDarkMode ? "text-white" : "text-gray-800"}`}>
+              Browse Experiences
+            </h2>
+          </div>
+          <p className={actualDarkMode ? "text-gray-200" : "text-gray-600"}>
+            Read real interview stories shared by students and alumni to gain insights and prepare effectively.
+          </p>
+        </Link>
+      </div>
+
+      {/* Info Section */}
+      <div className="text-center max-w-3xl mx-auto">
+        <h3 className={`text-2xl font-bold mb-4 ${actualDarkMode ? "text-white" : "text-gray-800"}`}>
+          Unlocking Your Potential
+        </h3>
+        <p className={actualDarkMode ? "text-gray-200" : "text-gray-600"}>
+          By sharing your interview experience, you provide invaluable guidance to juniors, helping them navigate complex
+          hiring processes. Browsing others' experiences offers critical insights into company expectations, common
+          questions, and effective strategies, significantly boosting your chances to secure a dream job and fostering a
+          supportive community.
+        </p>
+      </div>
     </div>
   );
-}
+};
+
+export default InterviewExperience;

@@ -1,3 +1,4 @@
+// src/App.jsx
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
@@ -15,13 +16,16 @@ import AdminManagement from "./components/AdminManagement";
 import ProtectedRoute from "./components/ProtectedRoute";
 import JobsPage from "./components/jobs";
 import InterviewExperience from "./components/InterviewExperience";
+import InterviewForm from "./components/InterviewForm"; // Added import here
+import BrowseExperiences from "./components/BrowseExperiences"; // Added import here
+import ExperienceDetails from "./components/ExperienceDetails"; // <--- NEW IMPORT
+
 import ScrollToTop from "./components/ScrollToTop";
 import ResetPassword from "./components/ResetPassword";
 import PrivacyPolicy from "./components/PrivacyPolicy"; // ✅ Added
 import CookiePolicy from "./components/CookiePolicy"; // ✅ Added
 import TermsOfService from "./components/TermsOfService"; // ✅ Added
 import GdprCompliance from "./components/GdprCompliance"; // ✅ Added
-
 
 import "../src/index.css";
 
@@ -71,6 +75,39 @@ function App() {
               </>
             }
           />
+
+          {/* Browse Experiences */}
+          <Route
+            path="/interview-experience/browse"
+            element={
+              <>
+                <Header />
+                <main className="main-content">
+                  <ProtectedRoute requireAdmin={false}>
+                    <BrowseExperiences />
+                  </ProtectedRoute>
+                </main>
+                <Footer />
+              </>
+            }
+          />
+
+          {/* NEW ROUTE FOR EXPERIENCE DETAILS */}
+          <Route
+            path="/experience/:id"
+            element={
+              <>
+                <Header />
+                <main className="main-content">
+                  <ProtectedRoute requireAdmin={false}>
+                    <ExperienceDetails />
+                  </ProtectedRoute>
+                </main>
+                <Footer />
+              </>
+            }
+          />
+
           <Route
             path="/contact"
             element={
@@ -126,6 +163,23 @@ function App() {
               </>
             }
           />
+
+          {/* Added new route for sharing interview experience */}
+          <Route
+            path="/interview-experience/share"
+            element={
+              <>
+                <Header />
+                <main className="main-content">
+                  <ProtectedRoute requireAdmin={false}>
+                    <InterviewForm />
+                  </ProtectedRoute>
+                </main>
+                <Footer />
+              </>
+            }
+          />
+
           <Route
             path="/jobs"
             element={
@@ -153,34 +207,33 @@ function App() {
             }
           />
 
+          {/* Terms of Service Route ✅ */}
+          <Route
+            path="/terms"
+            element={
+              <>
+                <Header />
+                <main className="main-content">
+                  <TermsOfService />
+                </main>
+                <Footer />
+              </>
+            }
+          />
 
-{/* Terms of Service Route ✅ */}
-<Route
-  path="/terms"
-  element={
-    <>
-      <Header />
-      <main className="main-content">
-        <TermsOfService />
-      </main>
-      <Footer />
-    </>
-  }
-/>
-
-{/* GDPR Compliance Route ✅ */}
-<Route
-  path="/gdpr"
-  element={
-    <>
-      <Header />
-      <main className="main-content">
-        <GdprCompliance />
-      </main>
-      <Footer />
-    </>
-  }
-/>
+          {/* GDPR Compliance Route ✅ */}
+          <Route
+            path="/gdpr"
+            element={
+              <>
+                <Header />
+                <main className="main-content">
+                  <GdprCompliance />
+                </main>
+                <Footer />
+              </>
+            }
+          />
 
           {/* Admin Routes */}
           <Route path="/admin-login" element={<AdminLogin />} />
