@@ -91,16 +91,16 @@ This document records **all contributions** to the project and assigns points ba
 | 71       | divyagit21        | 7         | #191      | job posting page updated                   |
 | 72       | Codeboy20         | 8         | #189      | Redesigned the About us page               |
 | 73       | Adez017           | 7         | #188      | Added Terms of service page                |
-| 74       | Tushar-sonawane06 | 1         | #212      | Form Styling Fixed                            |
-| 75       | sameera731        | 1         | #211      | feat: Add dynamic progress bar to signup page |
-| 76       | divyagit21        | 1         | #210      | Headings in home page updated                 |
-| 77       | divyagit21        | 1         | #209      | Extra padding removed                         |
-| 78       | divyagit21        | 1         | #208      | updated job-posting style                     |
-| 79       | divyagit21        | 1         | #207      | updated job button                            |
-| 80       | sanchita311       | 9         | #220      | Enhanced Interview Experience Form with Structured Sections and Customizable Tags |
-| 81       | divyagit21        | 2         | #219      | Updated icons and fonts theme                                                     |
-| 82       | Tushar-sonawane06 | 2         | #217      | Buttons Styling Fixed                                                             |
-| 83       | akofficial10      | 4         | #216      | Refactor adminController.js for Better Error Handling and Code Consistency        |
+| 74       | Tushar-sonawane06 | 3        | #212      | Form Styling Fixed                            |
+| 75       | sameera731        | 7         | #211      | feat: Add dynamic progress bar to signup page |
+| 76       | divyagit21        |  3       | #210      | Headings in home page updated                 |
+| 77       | divyagit21        |   3       | #209      | Extra padding removed                         |
+| 78       | divyagit21        |    3      | #208      | updated job-posting style                     |
+| 79       | divyagit21        |     3     | #207      | updated job button                            |
+| 80       | sanchita311       |      10    | #220      | Enhanced Interview Experience Form with Structured Sections and Customizable Tags |
+| 81       | divyagit21        |        3  | #219      | Updated icons and fonts theme                                                     |
+| 82       | Tushar-sonawane06 |       3 | #217      | Buttons Styling Fixed                                                             |
+| 83       | akofficial10      |        7  | #216      | Refactor adminController.js for Better Error Handling and Code Consistency        |
 
 
 
