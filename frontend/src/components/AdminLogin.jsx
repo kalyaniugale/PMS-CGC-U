@@ -75,9 +75,9 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="admin-login-main-container">
+    <div className="admin-login-main-container ">
       <Header />
-      <div className="admin-login-background">
+      <div className="admin-login-background ">
         <div className="admin-login-glow-effect glow-1"></div>
         <div className="admin-login-glow-effect glow-2"></div>
         <div className="admin-login-glow-effect glow-3"></div>

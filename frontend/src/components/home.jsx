@@ -549,7 +549,7 @@ function Home() {
       <section className="alumni-section">
         <div className="container">
           <div className="section-header">
-            <h2 className="section-title">Alumni Success Stories</h2>
+            <h2 className="section-title pt-15">Alumni Success Stories</h2>
           </div>
           <div className="alumni-grid">
             {alumni.map((alum, index) => (
