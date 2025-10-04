@@ -305,86 +305,187 @@ body.light .section-description {
   opacity: 0.8;
 }
 
-/* Features Section */
+/* Enhanced Features Section */
 .features-section {
   padding: 5rem 0;
   background: var(--bg-darker);
+  position: relative;
+  overflow: hidden;
+}
+
+.features-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--primary-maroon), transparent);
+  opacity: 0.3;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 4rem;
+  position: relative;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.section-underline {
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-maroon), var(--primary-gold));
+  margin: 1rem auto 0;
+  border-radius: 2px;
+  max-width: 100px;
 }
 
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2.5rem;
   max-width: 1200px;
   margin: 0 auto;
+  position: relative;
 }
 
 .feature-card {
-  background: rgba(30, 30, 30, 0.8);
-  padding: 2rem;
+  background: linear-gradient(145deg, rgba(30, 30, 30, 0.9), rgba(20, 20, 20, 0.95));
+  padding: 2.5rem 2rem;
   border-radius: var(--border-radius);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(128, 0, 32, 0.1);
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(128, 0, 32, 0.2);
   transition: all var(--transition-speed) ease;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
 }
 
-.feature-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-  border-color: rgba(128, 0, 32, 0.3);
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(128, 0, 32, 0.1), transparent);
+  transition: left 0.6s ease;
+}
+
+.feature-card:hover::before {
+  left: 100%;
+}
+
+.feature-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary-maroon), var(--primary-gold));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.feature-card:hover .feature-gradient {
+  opacity: 1;
 }
 
 .feature-icon-wrapper {
   color: var(--primary-maroon);
   margin-bottom: 1.5rem;
+  position: relative;
+  display: inline-block;
 }
 
 .feature-icon {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 3rem;
+  height: 3rem;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
 }
 
 .feature-title {
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   font-weight: 700;
   margin-bottom: 1rem;
-  color: var(--text-primary);
+  color: var(--text-primary); /* Fixed: Removed gradient text that was causing visibility issues */
+  position: relative;
+  z-index: 2;
 }
 
 .feature-description {
   color: var(--text-secondary);
-  line-height: 1.6;
+  line-height: 1.7;
+  font-size: 0.95rem;
+  position: relative;
+  z-index: 2;
 }
 
+/* Enhanced Light Theme */
 body.light .features-section {
-  background: var(--bg-darker);
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+body.light .section-title {
+  color: var(--text-primary);
 }
 
 body.light .feature-card {
-  background: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(128, 0, 32, 0.1);
-  backdrop-filter: none;
-  color: var(--text-primary);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(248, 249, 250, 0.98));
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(128, 0, 32, 0.15);
 }
 
 body.light .feature-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-  border-color: rgba(128, 0, 32, 0.3);
-}
-
-body.light .feature-icon-wrapper {
-  color: var(--primary-maroon);
+  box-shadow: 
+    0 20px 40px rgba(128, 0, 32, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 body.light .feature-title {
-  color: var(--text-primary);
+  color: var(--text-primary); /* Fixed for light theme */
 }
 
-body.light .feature-description {
-  color: var(--text-secondary);
+/* Responsive Design */
+@media (max-width: 768px) {
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 0 1rem;
+  }
+  
+  .feature-card {
+    padding: 2rem 1.5rem;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+}
+
+/* Performance optimizations */
+@media (prefers-reduced-motion: reduce) {
+  .feature-card,
+  .feature-icon-wrapper,
+  .feature-title,
+  .feature-description {
+    transition: none !important;
+    animation: none !important;
+  }
+  
+  .feature-card::before {
+    display: none;
+  }
 }
 
 /* Alumni Section */
