@@ -479,3 +479,21 @@
     transition: none;
   }
 }
+
+.admin-login-background {
+  padding-top: 80px;   
+  padding-bottom: 80px;
+  min-height: 100vh;  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+
+@media (max-width: 768px) {
+  .admin-login-background {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+}

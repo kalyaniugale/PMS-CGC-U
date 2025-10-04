@@ -765,6 +765,24 @@ body.dark .partners-section .section-title {
   }
 }
 
+.section-header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.section-underline {
+  margin: 0 auto;
+}
+
+.features-section .container,
+.alumni-section .container,
+.partners-section .container {
+  text-align: center;
+}
+
 /* Stats Section */
 .stats-section {
   padding: 5rem 0;
