@@ -113,6 +113,76 @@ const descriptionVariants = {
   },
 };
 
+// Animation variants for Partners Section
+const partnersContainerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+const partnerCardVariants = {
+  hidden: {
+    opacity: 0,
+    y: 40,
+    scale: 0.8,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      type: "spring",
+      stiffness: 120,
+      damping: 12,
+      duration: 0.6,
+    },
+  },
+  hover: {
+    y: -8,
+    scale: 1.05,
+    boxShadow: "0 20px 40px rgba(128, 0, 32, 0.25)",
+    borderColor: "rgba(128, 0, 32, 0.4)",
+    transition: {
+      type: "spring",
+      stiffness: 500,
+      damping: 30,
+    },
+  },
+  tap: {
+    scale: 0.95,
+    y: -2,
+  },
+};
+
+const logoVariants = {
+  hidden: {
+    opacity: 0,
+    scale: 0.5,
+  },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      type: "spring",
+      stiffness: 200,
+      delay: 0.2,
+    },
+  },
+  hover: {
+    scale: 1.1,
+    filter: "brightness(1.2) drop-shadow(0 0 10px rgba(255, 255, 255, 0.3))",
+    transition: {
+      type: "spring",
+      stiffness: 400,
+    },
+  },
+};
+
 // Feature Card Component
 const FeatureCard = ({ feature, index }) => {
   const [ref, inView] = useInView({
@@ -144,6 +214,43 @@ const FeatureCard = ({ feature, index }) => {
 
       {/* Enhanced gradient overlay */}
       <div className="feature-gradient"></div>
+    </motion.div>
+  );
+};
+
+// Partner Card Component
+const PartnerCard = ({ company, index }) => {
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+    rootMargin: "-30px 0px",
+  });
+
+  return (
+    <motion.div
+      ref={ref}
+      className="partner-card"
+      variants={partnerCardVariants}
+      initial="hidden"
+      animate={inView ? "visible" : "hidden"}
+      whileHover="hover"
+      whileTap="tap"
+      custom={index}
+    >
+      <motion.img
+        src={
+          company.name === "Deloitte" ? "/deloitte-seeklogo.svg" : company.logo
+        }
+        alt={company.name}
+        className="partner-logo"
+        variants={logoVariants}
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = `https://placehold.co/150x60/121212/FFFFFF?text=${company.name}`;
+        }}
+      />
+      {/* Enhanced gradient overlay */}
+      <div className="partner-gradient"></div>
     </motion.div>
   );
 };
@@ -343,6 +450,13 @@ function Home() {
     rootMargin: "-100px 0px",
   });
 
+  // Partners Section reference
+  const [partnersSectionRef, partnersSectionInView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+    rootMargin: "-100px 0px",
+  });
+
   const sectionTitleVariants = {
     hidden: { opacity: 0, y: 50 },
     visible: {
@@ -352,6 +466,20 @@ function Home() {
         type: "spring",
         stiffness: 100,
         damping: 20,
+      },
+    },
+  };
+
+  const partnersTitleVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 20,
+        duration: 0.8,
       },
     },
   };
@@ -445,31 +573,36 @@ function Home() {
         </div>
       </section>
 
-      {/* Partnership Section */}
-      <section className="partners-section">
+      {/* Enhanced Partnership Section */}
+      <section className="partners-section" ref={partnersSectionRef}>
         <div className="container">
-          <div className="section-header">
+          <motion.div
+            className="section-header"
+            initial="hidden"
+            animate={partnersSectionInView ? "visible" : "hidden"}
+            variants={partnersTitleVariants}
+          >
             <h2 className="section-title">Our Industry Partners</h2>
-          </div>
-          <div className="partners-grid">
+            <motion.div
+              className="section-underline"
+              initial={{ width: 0 }}
+              animate={
+                partnersSectionInView ? { width: "120px" } : { width: 0 }
+              }
+              transition={{ delay: 0.5, duration: 0.8 }}
+            />
+          </motion.div>
+
+          <motion.div
+            className="partners-grid"
+            variants={partnersContainerVariants}
+            initial="hidden"
+            animate={partnersSectionInView ? "visible" : "hidden"}
+          >
             {companies.map((company, index) => (
-              <div key={index} className="partner-card">
-                <img
-                  src={
-                    company.name === "Deloitte"
-                      ? "/deloitte-seeklogo.svg"
-                      : company.logo
-                  }
-                  alt={company.name}
-                  className="partner-logo"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = `https://placehold.co/150x60/121212/FFFFFF?text=${company.name}`;
-                  }}
-                />
-              </div>
+              <PartnerCard key={index} company={company} index={index} />
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
