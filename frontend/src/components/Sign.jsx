@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { signup, signin } from "../../api/auth";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import {
+  FaEye,
+  FaEyeSlash,
+  FaCheck,
+  FaExclamationTriangle,
+} from "react-icons/fa";
 import "./sign.css";
 
 function Sign() {
-  // Register vs Sign-in
   const [isRegister, setIsRegister] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [loading, setLoading] = useState(false)
-  // Form state -- added phone for registration (assumption: phone required on register)
-  const [progress, setProgress] = useState(0); 
+  const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [cardAnimation, setCardAnimation] = useState("fadeIn");
+  const [fieldAnimations, setFieldAnimations] = useState({});
+
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -19,23 +25,43 @@ function Sign() {
     confirmPassword: "",
   });
 
-  // Validation state
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
   const [valid, setValid] = useState({});
 
-   useEffect(() => {
-    // Calculate progress only when in register mode
+  useEffect(() => {
     if (isRegister) {
-        const fields = ["name", "email", "password", "confirmPassword"];
-        const validFields = fields.filter(field => valid[field]).length;
-        const newProgress = (validFields / fields.length) * 100;
-        setProgress(newProgress);
+      const fields = ["name", "email", "password", "confirmPassword"];
+      const validFields = fields.filter((field) => valid[field]).length;
+      const newProgress = (validFields / fields.length) * 100;
+      setProgress(newProgress);
     } else {
-        // Reset progress when switching to sign-in
-        setProgress(0);
+      setProgress(0);
     }
   }, [valid, isRegister]);
+
+  // Animate field when it becomes valid
+  useEffect(() => {
+    const newAnimations = { ...fieldAnimations };
+    Object.keys(valid).forEach((field) => {
+      if (valid[field] && !fieldAnimations[field]) {
+        newAnimations[field] = "success";
+        setTimeout(() => {
+          setFieldAnimations((prev) => ({ ...prev, [field]: "" }));
+        }, 2000);
+      }
+    });
+    setFieldAnimations(newAnimations);
+  }, [valid]);
+
+  const toggleMode = (isRegisterMode) => {
+    setCardAnimation("slideOut");
+    setTimeout(() => {
+      setIsRegister(isRegisterMode);
+      resetForm();
+      setCardAnimation("slideIn");
+    }, 300);
+  };
 
   const togglePassword = () => {
     setShowPassword(!showPassword);
@@ -45,10 +71,8 @@ function Sign() {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
-  // Simple validators
   const validateField = (name, value) => {
     let error = "";
-    // Custom required messages per field
     const requiredMessages = {
       name: "Username is required",
       email: "Email is required",
@@ -56,12 +80,11 @@ function Sign() {
       confirmPassword: "Confirm password is required",
     };
 
-    // If empty, show a field-specific required message
     if (!value || (typeof value === "string" && !value.trim())) {
       error = requiredMessages[name] || "This field is required";
     } else if (name === "email") {
-      // specific format validation
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) error = "Enter a valid email address";
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
+        error = "Enter a valid email address";
     } else if (name === "password" && isRegister) {
       if (value.length < 8) error = "Password must be at least 8 characters";
     } else if (name === "confirmPassword") {
@@ -76,7 +99,6 @@ function Sign() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
-    // real-time validation on input
     validateField(name, value);
   };
 
@@ -110,8 +132,7 @@ function Sign() {
         return;
       }
       setIsRegister(false);
-      setForm({ email: '', password: '' });
-
+      setForm({ email: "", password: "" });
     } catch (err) {
       if (err.response && err.response.status === 409) {
         setErrors({ general: "User already exists with this email." });
@@ -124,7 +145,6 @@ function Sign() {
   const handleSignIn = async (e) => {
     e.preventDefault();
     if (!validateAll()) return;
-    // Await the API call
     setLoading(true);
     const res = await signin(form);
     setLoading(false);
@@ -133,10 +153,8 @@ function Sign() {
       alert("Sign-in failed: " + res.error);
       return;
     }
-    // Set login state - token and user are already stored by auth.js
     alert("Signed in as " + form.email);
-    // Redirect to home or dashboard
-    window.location.href = '/';
+    window.location.href = "/";
     setForm({ name: "", email: "", password: "", confirmPassword: "" });
     setErrors({});
     setTouched({});
@@ -149,11 +167,10 @@ function Sign() {
       email: "",
       password: "",
       confirmPassword: "",
-    })
-
-    setErrors({})
-    setTouched({})
-    setValid({})
+    });
+    setErrors({});
+    setTouched({});
+    setValid({});
     setProgress(0);
     setShowPassword(false);
     setShowConfirmPassword(false);
@@ -161,151 +178,257 @@ function Sign() {
 
   return (
     <div className="sign-container">
-      <div className="sign-card">
-        <h2>{isRegister ? "Register" : "Sign In"}</h2>
-            {isRegister && (
-           <div className="progress-bar-wrapper">
-              <div className="progress-labels">
-                  <span>Name</span>
-                  <span>Email</span>
-                  <span>Password</span>
-                  <span>Confirm</span>
-              </div>
-              <div className="progress-bar-dynamic-container" title={`Progress: ${progress}%`}>
-                  <div className="progress-bar-dynamic-filler" style={{ width: `${progress}%` }}></div>
-                  <div className="progress-segment"></div>
-                  <div className="progress-segment"></div>
-                  <div className="progress-segment"></div>
-              </div>
+      <div className="animated-background">
+        <div className="floating-shape shape-1"></div>
+        <div className="floating-shape shape-2"></div>
+        <div className="floating-shape shape-3"></div>
+        <div className="floating-shape shape-4"></div>
+      </div>
+
+      <div className={`sign-card ${cardAnimation}`}>
+        <div className="card-header">
+          <div className="logo-sparkle">
+            <div className="sparkle"></div>
+            <h2>{isRegister ? "Create Account" : "Welcome Back"}</h2>
+            <div className="sparkle"></div>
+          </div>
+          <p className="card-subtitle">
+            {isRegister
+              ? "Join our community today"
+              : "Sign in to your account"}
+          </p>
+        </div>
+
+        {isRegister && (
+          <div className="progress-bar-wrapper">
+            <div className="progress-labels">
+              <span className={progress >= 25 ? "active" : ""}>Name</span>
+              <span className={progress >= 50 ? "active" : ""}>Email</span>
+              <span className={progress >= 75 ? "active" : ""}>Password</span>
+              <span className={progress >= 100 ? "active" : ""}>Confirm</span>
+            </div>
+            <div
+              className="progress-bar-dynamic-container"
+              title={`Progress: ${progress}%`}
+            >
+              <div
+                className="progress-bar-dynamic-filler"
+                style={{ width: `${progress}%` }}
+              ></div>
+              <div className="progress-segment"></div>
+              <div className="progress-segment"></div>
+              <div className="progress-segment"></div>
+            </div>
           </div>
         )}
-        {/* disable browser native validation with noValidate */}
+
         <form onSubmit={isRegister ? handleRegister : handleSignIn} noValidate>
           {isRegister && (
-            <div className="field-wrap">
-              <label htmlFor="name">Name</label>
-              <input
-                type="text"
-                name="name"
-                placeholder="Full Name"
-                value={form.name}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className={errors.name ? "input-error" : valid.name ? "input-success" : ""}
-                aria-invalid={!!errors.name}
-                aria-describedby="name-error"
-              />
-              {((touched.name || errors.name) && errors.name) && (
+            <div
+              className={`field-wrap ${
+                fieldAnimations.name === "success" ? "success-animation" : ""
+              }`}
+            >
+              <label htmlFor="name">Full Name</label>
+              <div className="input-container">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Enter your full name"
+                  value={form.name}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={
+                    errors.name
+                      ? "input-error"
+                      : valid.name
+                      ? "input-success"
+                      : ""
+                  }
+                  aria-invalid={!!errors.name}
+                  aria-describedby="name-error"
+                />
+                {valid.name && (
+                  <div className="success-indicator">
+                    <FaCheck />
+                  </div>
+                )}
+              </div>
+              {errors.name && (
                 <div id="name-error" className="error-text" role="alert">
-                  <span className="error-icon" aria-hidden="true">⚠</span>
+                  <FaExclamationTriangle className="error-icon" />
                   <span>{errors.name}</span>
                 </div>
               )}
             </div>
           )}
 
-          <div className="field-wrap">
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              name="email"
-              placeholder="Enter Email"
-              value={form.email}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              className={errors.email ? "input-error" : valid.email ? "input-success" : ""}
-              aria-invalid={!!errors.email}
-              aria-describedby="email-error"
-            />
-            {((touched.email || errors.email) && errors.email) && (
+          <div
+            className={`field-wrap ${
+              fieldAnimations.email === "success" ? "success-animation" : ""
+            }`}
+          >
+            <label htmlFor="email">Email Address</label>
+            <div className="input-container">
+              <input
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                value={form.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                className={
+                  errors.email
+                    ? "input-error"
+                    : valid.email
+                    ? "input-success"
+                    : ""
+                }
+                aria-invalid={!!errors.email}
+                aria-describedby="email-error"
+              />
+              {valid.email && (
+                <div className="success-indicator">
+                  <FaCheck />
+                </div>
+              )}
+            </div>
+            {errors.email && (
               <div id="email-error" className="error-text" role="alert">
-                <span className="error-icon" aria-hidden="true">⚠</span>
+                <FaExclamationTriangle className="error-icon" />
                 <span>{errors.email}</span>
               </div>
             )}
           </div>
 
-          <div className="field-wrap">
+          <div
+            className={`field-wrap ${
+              fieldAnimations.password === "success" ? "success-animation" : ""
+            }`}
+          >
             <label htmlFor="password">Password</label>
-            <div className="input-wrapper">
+            <div className="input-container">
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
-                placeholder="Enter Password"
+                placeholder="Enter your password"
                 value={form.password}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className={isRegister? errors.password ? "input-error" : valid.password ? "input-success" : "": ""}
+                className={
+                  isRegister
+                    ? errors.password
+                      ? "input-error"
+                      : valid.password
+                      ? "input-success"
+                      : ""
+                    : ""
+                }
                 aria-invalid={!!errors.password}
                 aria-describedby="password-error"
               />
               <span className="toggle-icon" onClick={togglePassword}>
                 {showPassword ? <FaEye /> : <FaEyeSlash />}
               </span>
+              {valid.password && (
+                <div className="success-indicator">
+                  <FaCheck />
+                </div>
+              )}
             </div>
-
-            {((touched.password || errors.password) && errors.password) && (
+            {errors.password && (
               <div id="password-error" className="error-text" role="alert">
-                <span className="error-icon" aria-hidden="true">⚠</span>
+                <FaExclamationTriangle className="error-icon" />
                 <span>{errors.password}</span>
               </div>
             )}
-            
           </div>
 
-          {/* Forgot Password link (only on Sign In) */}
           {!isRegister && (
             <div className="forgot-password">
-              <Link to="/reset-password" className="forgot-password">
+              <Link to="/reset-password" className="forgot-link">
                 Forgot Password?
               </Link>
             </div>
           )}
 
           {isRegister && (
-            <div className="field-wrap">
+            <div
+              className={`field-wrap ${
+                fieldAnimations.confirmPassword === "success"
+                  ? "success-animation"
+                  : ""
+              }`}
+            >
               <label htmlFor="confirmpassword">Confirm Password</label>
-              <div className="input-wrapper">
+              <div className="input-container">
                 <input
                   type={showConfirmPassword ? "text" : "password"}
                   name="confirmPassword"
-                  placeholder="Confirm Password"
+                  placeholder="Confirm your password"
                   value={form.confirmPassword}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className={errors.confirmPassword ? "input-error" : valid.confirmPassword ? "input-success" : ""}
+                  className={
+                    errors.confirmPassword
+                      ? "input-error"
+                      : valid.confirmPassword
+                      ? "input-success"
+                      : ""
+                  }
                   aria-invalid={!!errors.confirmPassword}
                   aria-describedby="confirm-error"
                 />
                 <span className="toggle-icon" onClick={toggleConfirmPassword}>
                   {showConfirmPassword ? <FaEye /> : <FaEyeSlash />}
                 </span>
+                {valid.confirmPassword && (
+                  <div className="success-indicator">
+                    <FaCheck />
+                  </div>
+                )}
               </div>
-
-              {((touched.confirmPassword || errors.confirmPassword) && errors.confirmPassword) && (
+              {errors.confirmPassword && (
                 <div id="confirm-error" className="error-text" role="alert">
-                  <span className="error-icon" aria-hidden="true">⚠</span>
+                  <FaExclamationTriangle className="error-icon" />
                   <span>{errors.confirmPassword}</span>
                 </div>
               )}
             </div>
           )}
-           
-           {/* Button with loader when registering or signing in*/}
-           <button type="submit" className={`btn-signin ${loading ? "loading" : ""}`} disabled={loading}><span className="btn-text">{isRegister ? "Register" : "Sign In"}</span>{loading && <span className="spinner"></span>}</button>
 
+          <button
+            type="submit"
+            className={`btn-signin ${loading ? "loading" : ""} ${
+              Object.keys(valid).length > 0 ? "pulse-glow" : ""
+            }`}
+            disabled={loading}
+          >
+            <span className="btn-text">
+              {isRegister ? "Create Account" : "Sign In"}
+            </span>
+            {loading && <span className="spinner"></span>}
+            <div className="btn-shine"></div>
+          </button>
         </form>
 
-        {errors.general && <div className="error">{errors.general}</div>}
+        {errors.general && (
+          <div className="error-general" role="alert">
+            <FaExclamationTriangle />
+            <span>{errors.general}</span>
+          </div>
+        )}
 
         <div className="toggle-link">
           {isRegister ? (
             <span>
-              Already have an account? <button onClick={() => { setIsRegister(false); resetForm() }}>Sign In</button>
+              Already have an account?{" "}
+              <button onClick={() => toggleMode(false)}>Sign In</button>
             </span>
           ) : (
             <span>
-              New user? <button onClick={() => { setIsRegister(true); resetForm() }}>Register</button>
+              New user?{" "}
+              <button onClick={() => toggleMode(true)}>Create Account</button>
             </span>
           )}
         </div>

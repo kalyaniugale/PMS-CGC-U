@@ -42,7 +42,7 @@ function App() {
             element={
               <>
                 <Header />
-                <main className="main-content">
+                <main className="main-content pt-0">
                   <Home />
                 </main>
                 <Footer />

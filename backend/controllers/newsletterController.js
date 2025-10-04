@@ -5,26 +5,28 @@ const {
   sendBulkNewsletter,
 } = require("../services/emailService.js");
 
+// Helper for server errors
+const handleServerError = (res, error, context) => {
+  console.error(`${context} error:`, error);
+  return res.status(500).json({ error: "Internal server error" });
+};
+
 // ✅ Subscribe
 const subscribe = async (req, res) => {
   try {
     const { email } = req.body;
-
-    if (!email) {
-      return res.status(400).json({ error: "Email is required" });
-    }
+    if (!email) return res.status(400).json({ error: "Email is required" });
 
     let subscriber = await Newsletter.findOne({ email });
 
     if (subscriber) {
-      if (subscriber.isSubscribed) {
+      if (subscriber.isSubscribed)
         return res.status(400).json({ error: "Email is already subscribed" });
-      } else {
-        subscriber.isSubscribed = true;
-        subscriber.subscribedAt = new Date();
-        subscriber.unsubscribedAt = null;
-        await subscriber.save();
-      }
+
+      subscriber.isSubscribed = true;
+      subscriber.subscribedAt = new Date();
+      subscriber.unsubscribedAt = null;
+      await subscriber.save();
     } else {
       subscriber = new Newsletter({ email });
       await subscriber.save();
@@ -36,17 +38,14 @@ const subscribe = async (req, res) => {
     )}/api/newsletter/unsubscribe?token=${unsubscribeToken}&email=${email}`;
 
     const emailSent = await sendConfirmationEmail(email, unsubscribeLink);
-
-    if (!emailSent) {
+    if (!emailSent)
       return res
         .status(500)
         .json({ error: "Failed to send confirmation email" });
-    }
 
     res.status(200).json({ message: "Successfully subscribed to newsletter" });
   } catch (error) {
-    console.error("Subscription error:", error);
-    res.status(500).json({ error: "Internal server error" });
+    handleServerError(res, error, "Subscription");
   }
 };
 
@@ -54,16 +53,13 @@ const subscribe = async (req, res) => {
 const unsubscribe = async (req, res) => {
   try {
     const { token, email } = req.query;
-
     const expectedToken = generateUnsubscribeToken(email);
-    if (token !== expectedToken) {
+
+    if (token !== expectedToken)
       return res.status(400).json({ error: "Invalid unsubscribe link" });
-    }
 
     const subscriber = await Newsletter.findOne({ email });
-    if (!subscriber) {
-      return res.status(404).json({ error: "Email not found" });
-    }
+    if (!subscriber) return res.status(404).json({ error: "Email not found" });
 
     subscriber.isSubscribed = false;
     subscriber.unsubscribedAt = new Date();
@@ -73,8 +69,7 @@ const unsubscribe = async (req, res) => {
       .status(200)
       .json({ message: "Successfully unsubscribed from newsletter" });
   } catch (error) {
-    console.error("Unsubscribe error:", error);
-    res.status(500).json({ error: "Internal server error" });
+    handleServerError(res, error, "Unsubscribe");
   }
 };
 
@@ -82,7 +77,6 @@ const unsubscribe = async (req, res) => {
 const sendNewsletter = async (req, res) => {
   try {
     const { subject, content } = req.body;
-
     const subscribers = await Newsletter.find({ isSubscribed: true });
 
     const generateUnsubscribeLink = (email) => {
@@ -103,8 +97,7 @@ const sendNewsletter = async (req, res) => {
       message: `Newsletter sent to ${subscribers.length} subscribers`,
     });
   } catch (error) {
-    console.error("Send newsletter error:", error);
-    res.status(500).json({ error: "Internal server error" });
+    handleServerError(res, error, "Send newsletter");
   }
 };
 
@@ -114,8 +107,7 @@ const getSubscriberCount = async (req, res) => {
     const count = await Newsletter.countDocuments({ isSubscribed: true });
     res.status(200).json({ count });
   } catch (error) {
-    console.error("Get subscriber count error:", error);
-    res.status(500).json({ error: "Internal server error" });
+    handleServerError(res, error, "Get subscriber count");
   }
 };
 
