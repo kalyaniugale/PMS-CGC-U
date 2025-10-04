@@ -1,11 +1,165 @@
 .sign-container {
   min-height: calc(100vh - 120px);
-  /* Adjust 120px to header+footer height if needed */
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: var(--border-radius);
   color: var(--text-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animated Background */
+.animated-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.floating-shape {
+  position: absolute;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #800000, #b30000);
+  opacity: 0.1;
+  animation: float 20s infinite linear;
+}
+
+.shape-1 {
+  width: 200px;
+  height: 200px;
+  top: 10%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.shape-2 {
+  width: 150px;
+  height: 150px;
+  top: 60%;
+  right: 10%;
+  animation-delay: -5s;
+  animation-duration: 25s;
+}
+
+.shape-3 {
+  width: 100px;
+  height: 100px;
+  bottom: 20%;
+  left: 20%;
+  animation-delay: -10s;
+  animation-duration: 30s;
+}
+
+.shape-4 {
+  width: 180px;
+  height: 180px;
+  top: 30%;
+  right: 20%;
+  animation-delay: -15s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(20px, 20px) rotate(90deg);
+  }
+  50% {
+    transform: translate(0, 40px) rotate(180deg);
+  }
+  75% {
+    transform: translate(-20px, 20px) rotate(270deg);
+  }
+}
+
+/* Card Animations */
+.sign-card {
+  background: rgba(30, 30, 30, 0.95);
+  backdrop-filter: blur(20px);
+  padding: 2.5rem 2rem;
+  border-radius: 24px;
+  border: 1px solid rgba(128, 0, 0, 0.3);
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.3),
+    0 0 80px rgba(128, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.sign-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transition: left 0.6s;
+}
+
+.sign-card:hover::before {
+  left: 100%;
+}
+
+/* Card Animation States */
+.sign-card.slideIn {
+  animation: slideInUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.sign-card.slideOut {
+  animation: slideOutDown 0.6s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
+}
+
+.sign-card.fadeIn {
+  animation: fadeIn 0.8s ease-out both;
+}
+
+@keyframes slideInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slideOutDown {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 body.light .sign-container {
@@ -13,291 +167,302 @@ body.light .sign-container {
 }
 
 body.light .sign-card {
-  background: #fff;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(128, 0, 0, 0.2);
 }
 
-.sign-card {
-  background: rgba(30, 30, 30, 0.8);
-  padding: 2.5rem 2rem;
-  border-radius: 16px;
-  border: 1px solid #800000;
-  width: 350px;
+/* Card Header */
+.card-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.logo-sparkle {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.sparkle {
+  width: 8px;
+  height: 8px;
+  background: #b70c0c;
+  border-radius: 50%;
+  animation: sparkle 2s infinite;
+}
+
+.sparkle:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.5);
+  }
+}
+
+.sign-card h2 {
+  color: #b70c0c;
+  margin: 0;
+  font-size: 2.2rem;
+  font-weight: 700;
+  background: linear-gradient(45deg, #b70c0c, #ff4444);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 body.light .sign-card h2 {
-  color: #800000;
-
-}
-.sign-card h2 {
-  color: #b70c0c;
-  margin-bottom: 1.5rem;
-  font-size: 2rem;
-  font-weight: bold;
+  background: linear-gradient(45deg, #800000, #b30000);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
+.card-subtitle {
+  color: #888;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+body.light .card-subtitle {
+  color: #666;
+}
+
+/* Form Styles */
 .sign-card form {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-}
-.sign-card input {
-  padding: 0.3rem 0.6rem;
-  outline: 1px solid gray;
-  border-radius: 6px;
-  background-color: rgb(147, 147, 147);
-  font-size: 1rem;
-  outline: none;
-  transition: border 0.2s;
+  gap: 1rem;
 }
 
-body.light .sign-card input {
-  padding: 0.3rem 0.6rem;
-  outline: 1px solid gray;
-  border-radius: 6px;
-  background-color: rgb(244, 244, 244);
-  font-size: 1rem;
-  outline: none;
-  transition: border 0.2s;
-}
-
-
-.sign-card input:focus {
-  border: 1.5px solid #800000;
-}
-
-.sign-card button[type="submit"] {
-  background: #800000;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  padding: 0.4rem 0;
-  margin-top: 10px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.sign-card button[type="submit"]:hover {
-  background: #930505;
-  box-shadow: 0 0 35px rgba(255, 0, 0, 0.2);
-}
-
-.toggle-link {
-  margin-top: 1rem;
-  font-size: 0.98rem;
-}
-
-.toggle-link button {
-  background: none;
-  border: none;
-  color: #2563eb;
-  cursor: pointer;
-  font-weight: 600;
-  padding: 0;
-  margin-left: 0.2rem;
-  text-decoration: underline;
-}
-
-.toggle-link button:hover {
-  color: #1e40af;
-  background-color: transparent;
-  box-shadow: none;
-}
-
-/* Validation UI */
+/* Field Wrapper with Animations */
 .field-wrap {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 0.5rem;
   position: relative;
 }
 
-.input-wrapper {
+.field-wrap.success-animation .input-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 12px;
+  background: linear-gradient(45deg, transparent, rgba(22, 163, 74, 0.1), transparent);
+  animation: successGlow 2s ease-out;
+  pointer-events: none;
+}
+
+@keyframes successGlow {
+  0% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+/* Input Container */
+.input-container {
   position: relative;
   width: 100%;
 }
 
-.input-wrapper input {
+.sign-card input {
   width: 100%;
-  padding-right: 2.5rem; 
-  box-sizing: border-box;
+  padding: 1rem 1.2rem;
+  border: 2px solid rgba(128, 0, 0, 0.2);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  font-size: 1rem;
+  color: inherit;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
 }
 
+body.light .sign-card input {
+  background: rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(128, 0, 0, 0.1);
+  color: #333;
+}
+
+.sign-card input:focus {
+  border-color: #800000;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 25px rgba(128, 0, 0, 0.15),
+    0 0 0 4px rgba(128, 0, 0, 0.1);
+}
+
+body.light .sign-card input:focus {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+/* Labels */
+.field-wrap label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #b70c0c;
+  margin-left: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+body.light .field-wrap label {
+  color: #800000;
+}
+
+/* Success Indicator */
+.success-indicator {
+  position: absolute;
+  right: 3rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #16a34a;
+  animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+}
+
+/* Toggle Icon */
 .toggle-icon {
   position: absolute;
-  right: 0.75rem;
+  right: 1.2rem;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
   color: #888;
   z-index: 2;
-  font-size: 1rem;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
 }
 
-.dark .toggle-icon{
+.toggle-icon:hover {
+  color: #b70c0c;
+  transform: translateY(-50%) scale(1.1);
+}
+
+body.dark .toggle-icon {
   color: #d1d5db;
 }
 
-.error-text {
-  color: #9a0d0d;
-  /* dark maroon */
-  font-size: 0.82rem;
-  margin-left: 0.25rem;
-}
-
-.error-text {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-.input-error {
-  border: 1.5px solid #9a0707 !important;
-  box-shadow: 0 0 0 3px rgba(107, 15, 15, 0.06);
-}
-
-.error-icon {
-  font-size: 0.95rem;
-  line-height: 1;
-  display: inline-block;
-}
-
-.input-success {
-  border: 1.5px solid #16a34a !important;
-  /* green-600 */
-  box-shadow: 0 0 0 3px rgba(16, 163, 127, 0.06);
-}
-
-/* small screens: make card width adapt */
-@media (max-width: 420px) {
-  .sign-card {
-    width: calc(100% - 40px);
-    padding: 1.5rem;
-  }
-
-  .sign-card h2 {
-    font-size: 1.25rem;
-  }
-}
-
-/* Forgot password */
-.forgot-password {
-  margin-top: 0.5rem;
-  text-align: center;
-  color: #007bff;
-}
-
-.forgot-password .forgot-link {
-  text-decoration: none;
-  font-size: 0.93rem;
-  cursor: pointer;
-}
-
-.forgot-password .forgot-link:hover {
-  text-decoration: underline;
-  color: #024f83;
-}
-
-.forgot-password .forgot-link:focus {
-  outline: 3px solid #024f83;
-  border-radius: 4px;
-}
-
-
+/* Button Styles */
 .btn-signin {
-  position: relative !important;      
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  overflow: hidden !important;
-  transform: none !important;
+  position: relative;
+  background: linear-gradient(45deg, #800000, #b30000);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 1.2rem 2rem;
+  margin-top: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  box-shadow: 
+    0 8px 25px rgba(128, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.btn-signin:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 
+    0 15px 35px rgba(128, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.2);
+  background: linear-gradient(45deg, #930505, #cc0000);
+}
+
+.btn-signin.pulse-glow:not(:disabled) {
+  animation: pulseGlow 2s infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 
+      0 8px 25px rgba(128, 0, 0, 0.3),
+      0 0 0 1px rgba(255, 255, 255, 0.1);
+  }
+  50% {
+    box-shadow: 
+      0 8px 35px rgba(128, 0, 0, 0.5),
+      0 0 20px rgba(255, 0, 0, 0.3);
+  }
 }
 
 .btn-signin.loading {
-  opacity: 0.7;
+  opacity: 0.8;
   cursor: not-allowed;
+  transform: none;
 }
 
 .btn-signin.loading .btn-text {
   visibility: hidden;
 }
 
+.btn-shine {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transition: left 0.6s;
+}
+
+.btn-signin:hover .btn-shine {
+  left: 100%;
+}
+
+/* Spinner */
 .btn-signin .spinner {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) rotate(0deg);
-  transform-origin: center center;
-  width: 1.25rem;
-  height: 1.25rem;
-  border: 2px solid rgba(255, 255, 255, 0.6);
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
   border-top-color: white;
   border-radius: 50%;
   animation: spin-rotate-center 1s linear infinite;
 }
-
-/* --- Decorative Progress Bar --- */
-.progress-bar-wrapper {
-    width: 100%;
-    margin-bottom: 2rem;
-}
-
-.progress-labels {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.75rem;
-    color: #6b7280; /* gray-500 for light mode */
-    margin-bottom: 0.5rem;
-    padding: 0 5px;
-}
-
-body.dark .progress-labels {
-    color: #9ca3af; /* gray-400 for dark mode */
-}
-
-.progress-bar-dynamic-container {
-    width: 100%;
-    height: 12px;
-    background-color: #e5e7eb; /* gray-200 for light mode */
-    border-radius: 6px;
-    overflow: hidden;
-    position: relative;
-    border: 1px solid #d1d5db;
-    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
-}
-
-body.dark .progress-bar-dynamic-container {
-    background-color: #374151; /* gray-700 for dark mode */
-    border-color: #4b5563;
-}
-
-.progress-bar-dynamic-filler {
-    height: 100%;
-    background-image: linear-gradient(45deg, #b90000, #800000);
-    border-radius: 4px;
-    transition: width 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.progress-segment {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background-color: rgba(255, 255, 255, 0.5); /* Lighter separator for dark bar */
-}
-
-body.dark .progress-segment {
-    background-color: rgba(0, 0, 0, 0.3); /* Darker separator for light bar */
-}
-
-.progress-segment:nth-of-type(1) { left: 25%; }
-.progress-segment:nth-of-type(2) { left: 50%; }
-.progress-segment:nth-of-type(3) { left: 75%; }
 
 @keyframes spin-rotate-center {
   from {
@@ -305,5 +470,254 @@ body.dark .progress-segment {
   }
   to {
     transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* Toggle Link */
+.toggle-link {
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+  text-align: center;
+  color: #888;
+}
+
+.toggle-link button {
+  background: none;
+  border: none;
+  color: #b70c0c;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0.2rem 0.5rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.toggle-link button::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #b70c0c;
+  transition: width 0.3s ease;
+}
+
+.toggle-link button:hover::after {
+  width: 100%;
+}
+
+.toggle-link button:hover {
+  color: #ff4444;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+/* Error Styles */
+.error-text {
+  color: #dc2626;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.error-icon {
+  font-size: 0.8rem;
+}
+
+.input-error {
+  border-color: #dc2626 !important;
+  background: rgba(220, 38, 38, 0.05) !important;
+  animation: errorPulse 0.6s ease-in-out;
+}
+
+@keyframes errorPulse {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
+}
+
+.input-success {
+  border-color: #16a34a !important;
+  background: rgba(22, 163, 74, 0.05) !important;
+}
+
+.error-general {
+  background: rgba(220, 38, 38, 0.1);
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  color: #dc2626;
+  padding: 1rem;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  width: 100%;
+  animation: slideInRight 0.5s ease-out;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Progress Bar */
+.progress-bar-wrapper {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.progress-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  margin-bottom: 0.5rem;
+  padding: 0 5px;
+}
+
+.progress-labels span {
+  color: #6b7280;
+  transition: all 0.3s ease;
+}
+
+.progress-labels span.active {
+  color: #b70c0c;
+  font-weight: 600;
+  transform: scale(1.1);
+}
+
+body.dark .progress-labels span {
+  color: #9ca3af;
+}
+
+body.dark .progress-labels span.active {
+  color: #ff4444;
+}
+
+.progress-bar-dynamic-container {
+  width: 100%;
+  height: 8px;
+  background-color: rgba(128, 0, 0, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.progress-bar-dynamic-filler {
+  height: 100%;
+  background: linear-gradient(90deg, #b90000, #800000, #b90000);
+  background-size: 200% 100%;
+  border-radius: 4px;
+  transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: progressShine 2s infinite linear;
+}
+
+@keyframes progressShine {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.progress-segment {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+body.dark .progress-segment {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.progress-segment:nth-of-type(1) { left: 25%; }
+.progress-segment:nth-of-type(2) { left: 50%; }
+.progress-segment:nth-of-type(3) { left: 75%; }
+
+/* Forgot Password */
+.forgot-password {
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.forgot-link {
+  color: #b70c0c;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.forgot-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: #b70c0c;
+  transition: width 0.3s ease;
+}
+
+.forgot-link:hover::after {
+  width: 100%;
+}
+
+.forgot-link:hover {
+  color: #ff4444;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .sign-card {
+    width: calc(100% - 40px);
+    padding: 2rem 1.5rem;
+    margin: 1rem;
+  }
+
+  .sign-card h2 {
+    font-size: 1.8rem;
+  }
+
+  .sign-card input {
+    padding: 0.875rem 1rem;
+  }
+
+  .btn-signin {
+    padding: 1rem 1.5rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .sign-card {
+    padding: 1.5rem 1rem;
+  }
+
+  .logo-sparkle {
+    gap: 0.5rem;
+  }
+
+  .sign-card h2 {
+    font-size: 1.5rem;
   }
 }
