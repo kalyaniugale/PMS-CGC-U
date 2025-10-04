@@ -29,13 +29,51 @@ exports.getExperienceById = async (req, res) => {
 // Add a new interview experience
 exports.addExperience = async (req, res) => {
   try {
-    const { company, role, experience } = req.body;
-    if (!company || !role || !experience) {
-      return res.status(400).json({ error: 'All fields are required' });
+    const {
+      name,
+      email,
+      contact,
+      branch,
+      graduationYear,
+      companyName,
+      role,
+      ctc,
+      stipend,
+      interviewDate,
+      experience,
+      rating,
+      tags,
+      customTag,
+      rounds
+    } = req.body;
+
+    // Basic validation (adjust as needed)
+    if (!companyName || !role || !experience) {
+      return res.status(400).json({ error: 'Please fill all required fields' });
     }
-    const newExp = new InterviewExperience({ company, role, experience, createdBy: req.user.id });
+
+    const newExp = new InterviewExperience({
+      name,
+      email,
+      contact,
+      branch,
+      graduationYear,
+      companyName,
+      role,
+      ctc,
+      stipend,
+      interviewDate,
+      experience,
+      rating,
+      tags,
+      customTag,
+      rounds,
+      createdBy: req.user.id
+    });
+
     await newExp.save();
-    // Pushing interview experience id into user's list
+
+    // Add to user's profile
     await User.findByIdAndUpdate(req.user.id, {
       $push: { interviewExperiences: newExp._id }
     });

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useExperiences } from "../context"; // ✅ Use global context
 import toast from "react-hot-toast"; // ✅ Import toast
 
@@ -10,10 +10,10 @@ const branches = [
 
 const difficulties = ["Easy", "Medium", "Hard"];
 
-const InterviewForm = ({ user, darkMode }) => {
+const InterviewForm = ({darkMode }) => {
   const [formData, setFormData] = useState({
     name: "",
-    email: user?.email || "",
+    email: "",
     contact: "",
     branch: "",
     graduationYear: "",
@@ -30,6 +30,27 @@ const InterviewForm = ({ user, darkMode }) => {
   });
 
   const { addExperience } = useExperiences(); // ✅ get addExperience from context
+
+  useEffect(() => {
+    const fetchProfile = () => {
+      try {
+        const data = localStorage.getItem('user');
+        if (!data) return;
+        const user = JSON.parse(data);
+        if (user?.email) {
+          setFormData((prev) => ({
+            ...prev,
+            email: user.email,
+            name: user.name || '',
+          }));
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchProfile();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -73,13 +94,13 @@ const InterviewForm = ({ user, darkMode }) => {
       submittedAt: new Date().toISOString(), // ✅ timestamp
     };
 
-    addExperience(finalData); // ✅ save in context + localStorage
+    addExperience(finalData); // ✅ save in context 
     toast.success("Experience submitted successfully!");
 
     // ✅ reset form
     setFormData({
       name: "",
-      email: user?.email || "",
+      email: "",
       contact: "",
       branch: "",
       graduationYear: "",

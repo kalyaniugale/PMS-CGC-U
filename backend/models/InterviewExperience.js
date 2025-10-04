@@ -1,13 +1,28 @@
 const mongoose = require('mongoose');
 
 const interviewExperienceSchema = new mongoose.Schema({
-  company: { type: String, required: true },
+  name: { type: String },
+  email: { type: String},
+  contact: { type: String },
+  branch: { type: String },
+  graduationYear: { type: String, },
+  companyName: { type: String, required: true },
   role: { type: String, required: true },
+  ctc: { type: String },
+  stipend: { type: String },
+  interviewDate: { type: String },
   experience: { type: String, required: true },
+  rating: { type: Number, default: 0 },
+  tags: [{ type: String }],
+  customTag: { type: String },
+  rounds: [{ 
+    roundName: String, 
+    description: String 
+  }],
   createdAt: { type: Date, default: Date.now },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', // references the 'User' model
+    ref: 'User',
     required: true
   }
 });

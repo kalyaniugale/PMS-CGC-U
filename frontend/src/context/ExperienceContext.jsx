@@ -1,29 +1,41 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
+import { addInterviewExperience, getAllInterviewExperiences } from "../../api/interviews";
 
 const ExperienceContext = createContext();
 
 export const ExperienceProvider = ({ children }) => {
-  // load from localStorage if available
-  const [experiences, setExperiences] = useState(() => {
-    try {
-      const raw = localStorage.getItem("experiences");
-      return raw ? JSON.parse(raw) : [];
-    } catch {
-      return [];
-    }
-  });
+  const [experiences, setExperiences] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // persist to localStorage
   useEffect(() => {
-    localStorage.setItem("experiences", JSON.stringify(experiences));
-  }, [experiences]);
+    const fetchExperiences = async () => {
+      try {
+        const data = await getAllInterviewExperiences();
+        setExperiences(data);
+      } catch (err) {
+        console.error("Error fetching experiences:", err);
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchExperiences();
+  }, []);
 
-  const addExperience = (newExp) => {
-    setExperiences((prev) => [...prev, { ...newExp, id: Date.now() }]);
+  const addExperience = async (newExp) => {
+    try {
+      const experience = await addInterviewExperience(newExp);
+      setExperiences((prev) => [...prev, { ...experience}]);
+    }
+    catch (err) {
+      console.log(err);
+      setError(err);
+    }
   };
 
   return (
-    <ExperienceContext.Provider value={{ experiences, addExperience }}>
+    <ExperienceContext.Provider value={{ experiences, addExperience, error, loading }}>
       {children}
     </ExperienceContext.Provider>
   );

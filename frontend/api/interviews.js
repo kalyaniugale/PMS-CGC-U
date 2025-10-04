@@ -6,13 +6,26 @@ export const getAllInterviewExperiences = async () => {
 };
 
 export const addInterviewExperience = async (data) => {
-    const res = await api.post('/api/interview-experiences', {
-        company: data.company,
-        role: data.role,
-        experience: data.experience
-    });
-    return res.data;
-}
+  const res = await api.post('/api/interview-experiences', {
+    name: data.name,
+    email: data.email,
+    contact: data.contact,
+    branch: data.branch,
+    graduationYear: data.graduationYear,
+    companyName: data.companyName,
+    role: data.role,
+    ctc: data.ctc,
+    stipend: data.stipend,
+    interviewDate: data.interviewDate,
+    experience: data.experience,
+    rating: data.rating,
+    tags: data.tags,
+    customTag: data.customTag,
+    rounds: data.rounds
+  });
+  return res.data;
+};
+
 
 export const deleteInterviewExperience = async (id) => {
     const res = await api.delete(`/api/interview-experiences/${id}`);
