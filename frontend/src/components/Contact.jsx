@@ -399,7 +399,7 @@ function Contact() {
       </div>
 
       <div className="contact-content-wrapper">
-        <div className="contact-main-content">
+        <div className="contact-main-content space">
           {/* Contact Info Section */}
           <div className="contact-info">
             <div className="contact-card">
