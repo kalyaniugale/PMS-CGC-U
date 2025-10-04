@@ -84,7 +84,7 @@ function Home() {
   ];
 
   return (
-    <main className="home-main">
+    <main className="home-main ">
       {/* Hero Section */}
       <section className="hero-section">
         <div className="hero-background" style={{ backgroundImage: `url(${cgcBack})` }}>

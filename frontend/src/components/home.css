@@ -19,6 +19,7 @@
   min-height: 100vh;
   background-color: var(--bg-dark);
   color: var(--text-primary);
+  padding-top: 0px;
 }
 
 .container {
@@ -61,6 +62,7 @@ body.light .container {
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  padding-top: 0;
 }
 
 .hero-background {
