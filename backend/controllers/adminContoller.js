@@ -26,6 +26,8 @@ const sendError = (res, status, message, details = null) => {
   return res.status(status).json(response);
 };
 
+const isSuperAdmin = (user) => user.role === "super_admin";
+
 // ========================
 // Controllers
 // ========================
@@ -33,7 +35,7 @@ const sendError = (res, status, message, details = null) => {
 // Get all admins (super admin only)
 exports.getAllAdmins = async (req, res) => {
   try {
-    if (req.user.role !== "super_admin") {
+    if (!isSuperAdmin(req.user)) {
       return sendError(res, 403, "Super admin access required");
     }
 
@@ -42,15 +44,15 @@ exports.getAllAdmins = async (req, res) => {
     }).select("-passwordHash");
 
     return res.json(admins);
-  } catch {
-    return sendError(res, 500, "Internal server error");
+  } catch (err) {
+    return sendError(res, 500, "Internal server error", err.message);
   }
 };
 
 // Invite new admin (super admin only)
 exports.inviteAdmin = async (req, res) => {
   try {
-    if (req.user.role !== "super_admin") {
+    if (!isSuperAdmin(req.user)) {
       return sendError(res, 403, "Super admin access required");
     }
 
@@ -61,10 +63,11 @@ exports.inviteAdmin = async (req, res) => {
       return sendError(res, 409, "User with this email already exists");
     }
 
-    const tempPassword =
-      Math.random().toString(36).slice(-8) +
-      Math.random().toString(36).toUpperCase().slice(-4) +
-      "!1";
+    const tempPassword = [
+      Math.random().toString(36).slice(-8),
+      Math.random().toString(36).toUpperCase().slice(-4),
+      "!1",
+    ].join("");
 
     const passwordHash = await bcrypt.hash(tempPassword, 10);
 
@@ -92,21 +95,21 @@ exports.inviteAdmin = async (req, res) => {
         name: adminUser.name,
         email: adminUser.email,
         role: adminUser.role,
-        tempPassword, // ⚠️ Only for development; should be sent via email in production
+        tempPassword, // ⚠️ Only for dev, should be emailed in production
       },
     });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return sendError(res, 400, "Validation failed", error.flatten());
     }
-    return sendError(res, 500, "Internal server error");
+    return sendError(res, 500, "Internal server error", error.message);
   }
 };
 
 // Update admin (super admin only)
 exports.updateAdmin = async (req, res) => {
   try {
-    if (req.user.role !== "super_admin") {
+    if (!isSuperAdmin(req.user)) {
       return sendError(res, 403, "Super admin access required");
     }
 
@@ -122,12 +125,9 @@ exports.updateAdmin = async (req, res) => {
       return sendError(res, 404, "Admin not found");
     }
 
-    if (payload.name) admin.name = payload.name;
-    if (payload.role) {
-      admin.role = payload.role;
-      admin.isSuperAdmin = payload.role === "super_admin";
-    }
-    if (payload.isActive !== undefined) admin.isActive = payload.isActive;
+    Object.assign(admin, payload, {
+      isSuperAdmin: payload.role === "super_admin" || admin.isSuperAdmin,
+    });
 
     await admin.save();
 
@@ -145,14 +145,14 @@ exports.updateAdmin = async (req, res) => {
     if (error instanceof z.ZodError) {
       return sendError(res, 400, "Validation failed", error.flatten());
     }
-    return sendError(res, 500, "Internal server error");
+    return sendError(res, 500, "Internal server error", error.message);
   }
 };
 
 // Delete admin (super admin only)
 exports.deleteAdmin = async (req, res) => {
   try {
-    if (req.user.role !== "super_admin") {
+    if (!isSuperAdmin(req.user)) {
       return sendError(res, 403, "Super admin access required");
     }
 
@@ -170,8 +170,8 @@ exports.deleteAdmin = async (req, res) => {
     await User.findByIdAndDelete(adminId);
 
     return res.json({ message: "Admin deleted successfully" });
-  } catch {
-    return sendError(res, 500, "Internal server error");
+  } catch (err) {
+    return sendError(res, 500, "Internal server error", err.message);
   }
 };
 
@@ -205,7 +205,7 @@ exports.changePassword = async (req, res) => {
     await user.save();
 
     return res.json({ message: "Password changed successfully" });
-  } catch {
-    return sendError(res, 500, "Internal server error");
+  } catch (err) {
+    return sendError(res, 500, "Internal server error", err.message);
   }
 };
