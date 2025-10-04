@@ -490,6 +490,7 @@
   position: relative;
 }
 
+
 @media (max-width: 768px) {
   .admin-login-background {
     padding-top: 60px;
